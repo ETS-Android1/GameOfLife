@@ -1,7 +1,8 @@
 GameOfLife
 ==========
 
-<h1>Android : Provide a mere interface to check some Game of Life like applications</h1>
+<h2>Android Application<h2>
+<h3>Show some Game of Life like algorithms</h3>
 Some algorithms have been included, some well known, others from my own :
 <ul>
 <li>Conway rules : the standard Game Of Life</li>
