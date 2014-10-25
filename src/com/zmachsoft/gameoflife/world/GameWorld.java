@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 
 /**
- * Master class of all game world
+ * Master class of all game worlds.
  * 
  * @author Master
  *
