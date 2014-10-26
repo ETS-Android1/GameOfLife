@@ -15,42 +15,91 @@
 	    android:paddingRight="@dimen/activity_horizontal_margin"
 	    android:paddingTop="@dimen/activity_vertical_margin"
 	    tools:context="com.zmachsoft.gameoflife.SettingsActivity" >
-	
-	    <CheckedTextView
-	        android:id="@+id/checkedConway"
-	        android:layout_width="fill_parent"
-	        android:layout_height="40dp"
-	        android:checkMark="?android:attr/listChoiceIndicatorSingle"
-	        android:clickable="true"
-	        android:gravity="left|center"
-	        android:text="Conway rules" />
-	    
-	    <CheckedTextView
-	        android:id="@+id/checkedShelling"
-	        android:layout_width="fill_parent"
-	        android:layout_height="40dp"
-	        android:checkMark="?android:attr/listChoiceIndicatorSingle"
-	        android:clickable="true"
-	        android:gravity="left|center"
-	        android:text="Shelling rules" />
-	    
-	    <CheckedTextView
-	        android:id="@+id/checkedEpidemic"
-	        android:layout_width="fill_parent"
-	        android:layout_height="40dp"
-	        android:checkMark="?android:attr/listChoiceIndicatorSingle"
-	        android:clickable="true"
-	        android:gravity="left|center"
-	        android:text="Epidemic rules" />
-	    
-	    <CheckedTextView
-	        android:id="@+id/checkedWar"
-	        android:layout_width="fill_parent"
-	        android:layout_height="40dp"
-	        android:checkMark="?android:attr/listChoiceIndicatorSingle"
-	        android:clickable="true"
-	        android:gravity="left|center"
-	        android:text="War rules" />
+
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+			<ImageButton
+			    android:id="@+id/setting_help_conway"
+			    android:layout_width="wrap_content"
+			    android:layout_height="34dp"
+			    android:layout_gravity="center_vertical"
+			    android:src="@drawable/help" />
+
+			<CheckedTextView
+			    android:id="@+id/checkedConway"
+			    android:layout_width="fill_parent"
+			    android:layout_height="40dp"
+			    android:checkMark="?android:attr/listChoiceIndicatorSingle"
+			    android:clickable="true"
+			    android:gravity="left|center"
+			    android:text="Conway rules" />
+
+		</LinearLayout>
+
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+
+			<ImageButton
+			    android:id="@+id/setting_help_shelling"
+			    android:layout_width="wrap_content"
+			    android:layout_height="34dp"
+			    android:src="@drawable/help" />
+
+			<CheckedTextView
+			    android:id="@+id/checkedShelling"
+			    android:layout_width="fill_parent"
+			    android:layout_height="40dp"
+			    android:checkMark="?android:attr/listChoiceIndicatorSingle"
+			    android:clickable="true"
+			    android:gravity="left|center"
+			    android:text="Shelling rules" />
+
+		</LinearLayout>
+
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+
+	        <ImageButton
+	            android:id="@+id/setting_help_epidemic"
+	            android:layout_width="wrap_content"
+	            android:layout_height="34dp"
+	            android:src="@drawable/help" />
+
+	        <CheckedTextView
+	            android:id="@+id/checkedEpidemic"
+	            android:layout_width="fill_parent"
+	            android:layout_height="40dp"
+	            android:checkMark="?android:attr/listChoiceIndicatorSingle"
+	            android:clickable="true"
+	            android:gravity="left|center"
+	            android:text="Epidemic rules" />
+
+	    </LinearLayout>
+
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+
+	        <ImageButton
+	            android:id="@+id/setting_help_war"
+	            android:layout_width="wrap_content"
+	            android:layout_height="34dp"
+	            android:src="@drawable/help" />
+
+	        <CheckedTextView
+	            android:id="@+id/checkedWar"
+	            android:layout_width="fill_parent"
+	            android:layout_height="40dp"
+	            android:checkMark="?android:attr/listChoiceIndicatorSingle"
+	            android:clickable="true"
+	            android:gravity="left|center"
+	            android:text="War rules" />
+
+	    </LinearLayout>
 
 	</LinearLayout>
 

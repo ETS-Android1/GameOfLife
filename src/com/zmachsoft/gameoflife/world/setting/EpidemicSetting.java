@@ -116,5 +116,10 @@ public class EpidemicSetting extends WorldSetting
 		nbText.setText("Number of sick points : " + setting.getNbSickPoints());
 	}
 
+	@Override
+	public String getRulesHelp()
+	{
+		return "Rules explanation";
+	}
 
 }

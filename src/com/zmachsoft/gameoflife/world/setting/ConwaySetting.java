@@ -102,5 +102,9 @@ public class ConwaySetting extends WorldSetting
 		nbText.setText("Density : " + setting.getDensity());
 	}
 
-
+	@Override
+	public String getRulesHelp()
+	{
+		return "Rules explanation";
+	}
 }

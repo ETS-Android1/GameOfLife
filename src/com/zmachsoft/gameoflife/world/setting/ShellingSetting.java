@@ -102,5 +102,10 @@ public class ShellingSetting extends WorldSetting
 		nbText.setText("Number of populations : " + setting.getNbCommunities());
 	}
 
+	@Override
+	public String getRulesHelp()
+	{
+		return "Rules explanation";
+	}
 
 }

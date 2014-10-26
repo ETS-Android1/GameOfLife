@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.GridLayout.LayoutParams;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.example.gameoflife.R;
@@ -48,13 +49,20 @@ public class SettingsActivity extends Activity implements OnClickListener
 		CheckedTextView warChoice = (CheckedTextView) findViewById(R.id.checkedWar);
 		warChoice.setOnClickListener(this);
 
+		// help buttons
+		ImageButton conwayHelp = (ImageButton) findViewById(R.id.setting_help_conway);
+		conwayHelp.setOnClickListener(this);
+		ImageButton shellingHelp = (ImageButton) findViewById(R.id.setting_help_shelling);
+		shellingHelp.setOnClickListener(this);
+		ImageButton epidemicHelp = (ImageButton) findViewById(R.id.setting_help_epidemic);
+		epidemicHelp.setOnClickListener(this);
+		ImageButton warHelp = (ImageButton) findViewById(R.id.setting_help_war);
+		warHelp.setOnClickListener(this);
+		
 		Button applyButton = (Button) findViewById(R.id.settingsApply);
 		applyButton.setOnClickListener(this);
 		Button cancelButton = (Button) findViewById(R.id.settingsCancel);
 		cancelButton.setOnClickListener(this);
-		
-		// update panel display according to current game's settings
-//		updateFormFromSetting(GameOflife.getInstance().getWorld().getSetting());
 	}
 	
 	@Override
@@ -147,6 +155,26 @@ public class SettingsActivity extends Activity implements OnClickListener
 			// no change
 			setResult(MainActivity.ACTIVITY_SETTING_ID, null);
 			finish(); // finishing activity
+		}
+		else if (v.getId() == R.id.setting_help_conway)
+		{
+			// display the rules
+			GameUIUtils.displayTextDialog(this, "Conway rules", GameOflife.getInstance().getWorld().getSetting().getRulesHelp(), true);
+		}
+		else if (v.getId() == R.id.setting_help_shelling)
+		{
+			// display the rules
+			GameUIUtils.displayTextDialog(this, "Shelling rules", GameOflife.getInstance().getWorld().getSetting().getRulesHelp(), true);
+		}
+		else if (v.getId() == R.id.setting_help_epidemic)
+		{
+			// display the rules
+			GameUIUtils.displayTextDialog(this, "Epidemic rules", GameOflife.getInstance().getWorld().getSetting().getRulesHelp(), true);
+		}
+		else if (v.getId() == R.id.setting_help_war)
+		{
+			// display the rules
+			GameUIUtils.displayTextDialog(this, "War rules", GameOflife.getInstance().getWorld().getSetting().getRulesHelp(), true);
 		}
 	}
 

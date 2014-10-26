@@ -1,8 +1,6 @@
 package com.zmachsoft.gameoflife.world.setting;
 
 import android.app.Activity;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -150,6 +148,12 @@ public class WarSetting extends WorldSetting
 		// set Occupation rule around empty cells seekbar's position
 		SeekBar dyingProbability = (SeekBar) activity.findViewById(R.id.war_setting_dying_progress);
 		dyingProbability.setProgress(setting.getOccupiedCellDyingMode()-1);
+	}
+
+	@Override
+	public String getRulesHelp()
+	{
+		return "Rules explanation";
 	}
 
 }

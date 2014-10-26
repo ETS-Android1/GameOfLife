@@ -23,6 +23,11 @@ public abstract class WorldSetting implements Serializable
 	}
 	
 	/**
+	 * @return the rules help
+	 */
+	public abstract String getRulesHelp();
+	
+	/**
 	 * Default setting factory
 	 * @param worldType
 	 * @return
