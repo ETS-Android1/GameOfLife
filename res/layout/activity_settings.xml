@@ -22,19 +22,22 @@
 
 			<ImageButton
 			    android:id="@+id/setting_help_conway"
+			    android:background="@null"
 			    android:layout_width="wrap_content"
 			    android:layout_height="34dp"
 			    android:layout_gravity="center_vertical"
+			    android:contentDescription="@string/setting_help_conway"
 			    android:src="@drawable/help" />
 
 			<CheckedTextView
 			    android:id="@+id/checkedConway"
 			    android:layout_width="fill_parent"
 			    android:layout_height="40dp"
+			    android:layout_marginLeft="20dp"
 			    android:checkMark="?android:attr/listChoiceIndicatorSingle"
 			    android:clickable="true"
 			    android:gravity="left|center"
-			    android:text="Conway rules" />
+			    android:text="@string/setting_choice_conway" />
 
 		</LinearLayout>
 
@@ -44,18 +47,21 @@
 
 			<ImageButton
 			    android:id="@+id/setting_help_shelling"
+			    android:background="@null"
 			    android:layout_width="wrap_content"
 			    android:layout_height="34dp"
+			    android:contentDescription="@string/setting_help_shelling"
 			    android:src="@drawable/help" />
 
 			<CheckedTextView
 			    android:id="@+id/checkedShelling"
 			    android:layout_width="fill_parent"
 			    android:layout_height="40dp"
+			    android:layout_marginLeft="20dp"
 			    android:checkMark="?android:attr/listChoiceIndicatorSingle"
 			    android:clickable="true"
 			    android:gravity="left|center"
-			    android:text="Shelling rules" />
+			    android:text="@string/setting_choice_shelling" />
 
 		</LinearLayout>
 
@@ -65,18 +71,21 @@
 
 	        <ImageButton
 	            android:id="@+id/setting_help_epidemic"
+	            android:background="@null"
 	            android:layout_width="wrap_content"
 	            android:layout_height="34dp"
+			    android:contentDescription="@string/setting_help_epidemic"
 	            android:src="@drawable/help" />
 
 	        <CheckedTextView
 	            android:id="@+id/checkedEpidemic"
 	            android:layout_width="fill_parent"
 	            android:layout_height="40dp"
+	            android:layout_marginLeft="20dp"
 	            android:checkMark="?android:attr/listChoiceIndicatorSingle"
 	            android:clickable="true"
 	            android:gravity="left|center"
-	            android:text="Epidemic rules" />
+	            android:text="@string/setting_choice_epidemic" />
 
 	    </LinearLayout>
 
@@ -86,18 +95,21 @@
 
 	        <ImageButton
 	            android:id="@+id/setting_help_war"
+	            android:background="@null"
 	            android:layout_width="wrap_content"
 	            android:layout_height="34dp"
+			    android:contentDescription="@string/setting_help_war"
 	            android:src="@drawable/help" />
 
 	        <CheckedTextView
 	            android:id="@+id/checkedWar"
 	            android:layout_width="fill_parent"
 	            android:layout_height="40dp"
+	            android:layout_marginLeft="20dp"
 	            android:checkMark="?android:attr/listChoiceIndicatorSingle"
 	            android:clickable="true"
 	            android:gravity="left|center"
-	            android:text="War rules" />
+	            android:text="@string/setting_choice_war" />
 
 	    </LinearLayout>
 
@@ -116,7 +128,7 @@
 		    android:layout_height="wrap_content"
 		    android:layout_weight="1"
 		    android:minWidth="100dp"
-		    android:text="Apply" />
+		    android:text="@string/button_apply" />
 
 		<Button
 		    android:id="@+id/settingsCancel"
@@ -125,7 +137,7 @@
 		    android:layout_height="wrap_content"
 		    android:layout_weight="1"
 		    android:minWidth="100dp"
-		    android:text="Cancel" />
+		    android:text="@string/button_cancel" />
 
 	</LinearLayout>
 

@@ -1,5 +1,7 @@
 package com.zmachsoft.gameoflife;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +23,6 @@ public class MainActivity extends Activity implements OnClickListener, OnSeekBar
 	public static int ACTIVITY_SETTING_ID = 2; 
 	private boolean pauseButtonCanPause = true;
 	private int renderSpeed = 0;
-//	private WorldType worldType = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -32,8 +33,10 @@ public class MainActivity extends Activity implements OnClickListener, OnSeekBar
 
 		// create the game itself (singleton pattern to be accessible from any activity)
 		GameOflife.getInstance();
-//		worldType = GameOflife.getInstance().getWorldType();
 
+		// Trace current locale		
+//		Locale current = getResources().getConfiguration().locale;
+		
 		// bind listener on UI buttons
 		Button startButton = (Button) findViewById(R.id.buttonStart);
 		startButton.setOnClickListener(this);

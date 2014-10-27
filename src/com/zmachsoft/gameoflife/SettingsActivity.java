@@ -159,7 +159,8 @@ public class SettingsActivity extends Activity implements OnClickListener
 		else if (v.getId() == R.id.setting_help_conway)
 		{
 			// display the rules
-			GameUIUtils.displayTextDialog(this, "Conway rules", GameOflife.getInstance().getWorld().getSetting().getRulesHelp(), true);
+			String text = getString(R.string.settings_helptext_conway);
+			GameUIUtils.displayTextDialog(this, "Conway rules", text, true);
 		}
 		else if (v.getId() == R.id.setting_help_shelling)
 		{

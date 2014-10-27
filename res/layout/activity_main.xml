@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="65dp"
-            android:text="Start" />
+            android:text="@string/button_start" />
 
         <Button
             android:id="@+id/buttonPause"
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="65dp"
-            android:text="Pause" />
+            android:text="@string/button_pause" />
 
         <Button
             android:id="@+id/ButtonStep"
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="65dp"
-            android:text="Step" />
+            android:text="@string/button_step" />
 
         <Button
             android:id="@+id/buttonReset"
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="65dp"
-            android:text="Reset" />
+            android:text="@string/button_reset" />
     </LinearLayout>
 
     <LinearLayout
@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Speed : "
+            android:text="@string/main_seekbar_speed_label"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <SeekBar
@@ -98,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="65dp"
-            android:text="Settings" />
+            android:text="@string/button_settings" />
     </LinearLayout>
 
 </LinearLayout>

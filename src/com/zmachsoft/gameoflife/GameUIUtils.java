@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.example.gameoflife.R;
 
+import fi.iki.kuitsi.listtest.MyTagHandler;
+
 /**
  * Some Game UI utils
  * 
@@ -34,7 +36,7 @@ public class GameUIUtils
 		// HTML text or not ?
 		TextView textview=(TextView)view.findViewById(R.id.generic_textmsg);
 		if (isHtml)
-			textview.setText(Html.fromHtml(text));
+			textview.setText(Html.fromHtml(text, null, new MyTagHandler()));
 		else
 			textview.setText(text);
 
