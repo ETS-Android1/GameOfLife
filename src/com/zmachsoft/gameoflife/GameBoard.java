@@ -138,8 +138,9 @@ public class GameBoard extends SurfaceView implements SurfaceHolder.Callback
 		// compute a sleep time for game thread
 		int sleepMin = 0;
 		int sleepMax = 500;	// in ms
-		int sleepTime = (100-speed)*sleepMax/100;
-		thread.setSleepTime(sleepTime);
+		int sleepTime = (100-speed)*(sleepMax-sleepMin)/100;
+		if (thread!=null)
+			thread.setSleepTime(sleepTime);
 	}
 	
 	@Override

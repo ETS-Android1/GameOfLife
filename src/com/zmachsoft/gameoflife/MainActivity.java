@@ -1,9 +1,8 @@
 package com.zmachsoft.gameoflife;
 
-import java.util.Locale;
-
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.Toast;
 
 import com.example.gameoflife.R;
 import com.zmachsoft.gameoflife.world.NoChangeException;
@@ -123,6 +123,18 @@ public class MainActivity extends Activity implements OnClickListener, OnSeekBar
 		super.onDestroy();
 	}
 
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+	    super.onConfigurationChanged(newConfig);
+
+	    // Checks the orientation of the screen
+	    if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+	        Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+	    } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+	        Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+	    }
+	}
+	
 	@Override
 	public void onClick(View v)
 	{
