@@ -34,8 +34,26 @@ public class MainActivity extends Activity implements OnClickListener, OnSeekBar
 		// create the game itself (singleton pattern to be accessible from any activity)
 		GameOflife.getInstance();
 
-		// Trace current locale		
-//		Locale current = getResources().getConfiguration().locale;
+//		GameBoard gameBoard = (GameBoard) findViewById(R.id.gameWorld);
+//		if (gameBoard != null)
+//		{
+//			Display display = getWindowManager().getDefaultDisplay();
+//			Point size = new Point();
+//			display.getSize(size);
+//			int width = size.x;
+//			int height = size.y;
+//			
+//			if (this.getResources().getConfiguration().orientation==Configuration.ORIENTATION_PORTRAIT)
+//			{
+//				// apply the width
+//				gameBoard.setLayoutParams(new LinearLayout.LayoutParams(width, width));
+//			}
+//			else
+//			{
+//				// apply the height
+//				gameBoard.setLayoutParams(new LinearLayout.LayoutParams(height, height));
+//			}
+//		}
 		
 		// bind listener on UI buttons
 		Button startButton = (Button) findViewById(R.id.buttonStart);

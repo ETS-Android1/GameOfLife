@@ -97,7 +97,7 @@
         android:id="@+id/linearLayout3"
         android:layout_width="271dp"
         android:layout_height="wrap_content"
-        android:gravity="right|center_vertical"
+        android:gravity="top|right"
         android:orientation="horizontal" >
 
         <com.zmachsoft.gameoflife.GameBoard

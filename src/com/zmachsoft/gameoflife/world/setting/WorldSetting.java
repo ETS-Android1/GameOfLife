@@ -17,8 +17,16 @@ public abstract class WorldSetting implements Serializable
 	
 	protected WorldSetting(WorldType worldType)
 	{
+//		this.nbTiles = 20;
+//		this.tileSize = 20;
 		this.nbTiles = 40;
 		this.tileSize = 10;
+//		this.nbTiles = 80;
+//		this.tileSize = 5;
+//		this.nbTiles = 100;
+//		this.tileSize = 4;
+//		this.nbTiles = 200;
+//		this.tileSize = 2;
 		this.worldType = worldType;
 	}
 	
