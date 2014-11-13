@@ -11,22 +11,16 @@ import com.zmachsoft.gameoflife.world.GameWorld.WorldType;
  */
 public abstract class WorldSetting implements Serializable
 {
+	public static int NB_TILES = 60;
+	public static int TILE_SIZE = 10;
 	private int nbTiles;
 	private int tileSize;
 	private WorldType worldType;
 	
 	protected WorldSetting(WorldType worldType)
 	{
-//		this.nbTiles = 20;
-//		this.tileSize = 20;
-		this.nbTiles = 40;
-		this.tileSize = 10;
-//		this.nbTiles = 80;
-//		this.tileSize = 5;
-//		this.nbTiles = 100;
-//		this.tileSize = 4;
-//		this.nbTiles = 200;
-//		this.tileSize = 2;
+		this.nbTiles = NB_TILES;
+		this.tileSize = TILE_SIZE;
 		this.worldType = worldType;
 	}
 	

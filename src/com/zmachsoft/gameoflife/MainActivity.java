@@ -3,13 +3,16 @@ package com.zmachsoft.gameoflife;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Toast;
@@ -34,26 +37,38 @@ public class MainActivity extends Activity implements OnClickListener, OnSeekBar
 		// create the game itself (singleton pattern to be accessible from any activity)
 		GameOflife.getInstance();
 
-//		GameBoard gameBoard = (GameBoard) findViewById(R.id.gameWorld);
-//		if (gameBoard != null)
-//		{
-//			Display display = getWindowManager().getDefaultDisplay();
-//			Point size = new Point();
-//			display.getSize(size);
-//			int width = size.x;
-//			int height = size.y;
-//			
-//			if (this.getResources().getConfiguration().orientation==Configuration.ORIENTATION_PORTRAIT)
-//			{
-//				// apply the width
-//				gameBoard.setLayoutParams(new LinearLayout.LayoutParams(width, width));
-//			}
-//			else
-//			{
-//				// apply the height
-//				gameBoard.setLayoutParams(new LinearLayout.LayoutParams(height, height));
-//			}
-//		}
+		GameBoard gameBoard = (GameBoard) findViewById(R.id.gameWorld);
+		if (gameBoard != null)
+		{
+			Display display = getWindowManager().getDefaultDisplay();
+			Point size = new Point();
+			display.getSize(size);
+			int width = size.x;
+			int height = size.y;
+			
+			Integer criticalSize = null; 
+			if (this.getResources().getConfiguration().orientation==Configuration.ORIENTATION_PORTRAIT)
+			{
+				// apply the width
+//				criticalSize = width;
+				criticalSize = (int) Math.round(width*0.95);
+			}
+			else
+			{
+				// apply the height
+				criticalSize = (int) Math.round(height*0.7);
+			}
+			
+			// according to the number of tiles, adapt the tile size to maximize the surface view 
+			WorldSetting.TILE_SIZE = (int) Math.floor(criticalSize / WorldSetting.NB_TILES);
+			GameOflife.getInstance().getWorld().getSetting().setTileSize(WorldSetting.TILE_SIZE);
+			
+			// compute back the real surface size to match the world properties
+			criticalSize = WorldSetting.NB_TILES * WorldSetting.TILE_SIZE;
+			
+			Log.i("GOL", "Activity compute Tile size to " + WorldSetting.TILE_SIZE + " for " + WorldSetting.NB_TILES + " tiles - so surface is " + criticalSize);			
+			gameBoard.setLayoutParams(new LinearLayout.LayoutParams(criticalSize, criticalSize));
+		}
 		
 		// bind listener on UI buttons
 		Button startButton = (Button) findViewById(R.id.buttonStart);

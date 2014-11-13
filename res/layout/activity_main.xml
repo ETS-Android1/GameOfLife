@@ -62,7 +62,9 @@
         <com.zmachsoft.gameoflife.GameBoard
             android:id="@+id/gameWorld"
             android:layout_width="270dp"
-            android:layout_height="270dp" />
+            android:layout_height="270dp"
+            android:layout_gravity="center_horizontal" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -79,12 +81,34 @@
 
         <SeekBar
             android:id="@+id/settingsSpeed"
-            android:layout_width="231dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:progress="1" />
 
     </LinearLayout>
+<!--
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nb_tiles"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <SeekBar
+            android:id="@+id/settingsNbTiles"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:progress="1"
+            android:max="5" />
+
+    </LinearLayout>
+-->
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"

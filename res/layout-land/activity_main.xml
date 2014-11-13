@@ -97,14 +97,14 @@
         android:id="@+id/linearLayout3"
         android:layout_width="271dp"
         android:layout_height="wrap_content"
-        android:gravity="top|right"
+        android:gravity="right|center_vertical"
         android:orientation="horizontal" >
 
         <com.zmachsoft.gameoflife.GameBoard
             android:id="@+id/gameWorld"
             android:layout_width="270dp"
             android:layout_height="270dp"
-            android:layout_gravity="top" />
+            android:layout_gravity="center_vertical" />
 
     </LinearLayout>
 

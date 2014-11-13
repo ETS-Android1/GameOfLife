@@ -24,5 +24,6 @@
     <string name="setting_help_shelling">Help on Shelling rules</string>
 	<string name="setting_help_epidemic">Help on Epidemic rules</string>
     <string name="setting_help_war">Help on War rules</string>
+    <string name="nb_tiles">Nb tiles :</string>
         
 </resources>
