@@ -221,16 +221,20 @@ public class WorldShelling extends GameWorld
 	public void render(Canvas canvas)
 	{
 		Log.i("GD", "Surface onDraw");
+		// compute shifts to center the drawing
+		int leftShift = (getBoardWidth() - setting.getNbTiles() * setting.getTileSize())/2;
+		int topShift = (getBoardheight() - setting.getNbTiles() * setting.getTileSize())/2;
+		
 		for (int r = 0; r < setting.getNbTiles(); r++)
 		{
 			for (int c = 0; c < setting.getNbTiles(); c++)
 			{
-				renderCell(r, c, canvas);
+				renderCell(r, c, canvas, leftShift, topShift);
 			}
 		}
 	}
 
-	private void renderCell(int r, int c, Canvas canvas)
+	private void renderCell(int r, int c, Canvas canvas, int leftShift, int topShift)
 	{
 		// what color to use
 //		int color = datas[r][c] == 1 ? Color.RED : datas[r][c] == 2 ? Color.GREEN : datas[r][c] == 3 ? Color.BLUE : Color.GRAY;
@@ -245,9 +249,9 @@ public class WorldShelling extends GameWorld
 //		float right = left + setting.getTileSize() - 1;
 //		canvas.drawRoundRect(new RectF(left, top, right, bottom), 2, 2, paint);
 		
-		float top = r * setting.getTileSize() ;
+		float top = topShift + r * setting.getTileSize() ;
 		float bottom = top + setting.getTileSize() ;
-		float left = c * setting.getTileSize();
+		float left = leftShift + c * setting.getTileSize();
 		float right = left + setting.getTileSize() ;
 		canvas.drawRect(new RectF(left, top, right, bottom), paint);
 	}

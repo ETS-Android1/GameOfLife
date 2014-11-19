@@ -27,6 +27,8 @@ public abstract class GameWorld
 	protected int uniqueId = UNIQUE_ID++;
 	
 	protected WorldSetting setting;
+	protected int boardWidth;
+	protected int boardheight;
 	
 	protected GameWorld(WorldSetting setting)
 	{
@@ -51,4 +53,25 @@ public abstract class GameWorld
 	{
 		return setting;
 	}
+
+	public int getBoardWidth()
+	{
+		return boardWidth;
+	}
+
+	public void setBoardWidth(int boardWidth)
+	{
+		this.boardWidth = boardWidth;
+	}
+
+	public int getBoardheight()
+	{
+		return boardheight;
+	}
+
+	public void setBoardheight(int boardheight)
+	{
+		this.boardheight = boardheight;
+	}
+	
 }

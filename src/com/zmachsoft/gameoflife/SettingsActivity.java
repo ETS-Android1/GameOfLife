@@ -281,7 +281,7 @@ public class SettingsActivity extends Activity implements OnClickListener
 	 */
 	private void activateSetting(WorldType type)
 	{
-		LinearLayout rulesLayout = (LinearLayout) findViewById(R.id.setting_rules_layout);
+		LinearLayout rulesLayout = (LinearLayout) findViewById(R.id.main_layout);
 		
 		// remove last setting panel if any
 		if (lastSettingPanel!=null)

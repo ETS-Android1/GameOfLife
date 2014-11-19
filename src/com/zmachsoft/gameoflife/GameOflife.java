@@ -38,6 +38,15 @@ public class GameOflife
 	 */
 	public void initWorld(WorldSetting setting)
 	{
+		Integer boardWidth = null;
+		Integer boardHeight = null;
+		// register world's board's size if already defined
+		if (world!=null)
+		{
+			boardWidth = world.getBoardWidth();
+			boardHeight = world.getBoardheight();
+		}
+		
 		// no settings, then pick up a default one
 		if (setting==null)
 		{
@@ -72,6 +81,13 @@ public class GameOflife
 		
 		// world initial state
 		world.initContent();
+		
+		// update world's board's size
+		if (boardWidth!=null)
+		{
+			world.setBoardWidth(boardWidth);
+			world.setBoardheight(boardHeight);
+		}
 	}
 	
 	public void nextStep() throws NoChangeException
