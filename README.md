@@ -1,8 +1,10 @@
 GameOfLife
 ==========
 
-<h2>Android Application<h2>
-<h3>Show some Game of Life like algorithms</h3>
+<h2>Android Application : some Game of Life like algorithms<h2>
+
+If you want a quick try, only install on your smartphone the .apk file located in the /bin/ folder. 
+
 Some algorithms have been included, some well known, others from my own :
 
 <ul>
