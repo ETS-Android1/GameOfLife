@@ -8,7 +8,7 @@ Some algorithms have been included, some well known, others from my own :
 <ul>
 <li>Conway rules : the standard Game Of Life</li>
 </ul>
-<div>![screenshot](conway.png)</div>
+<div><img src="screenshot/conway.png" /></div>
 <ul>
 <li>Shelling rules : the Shelling implementation showing automatic segregational behaviour of populations</li>
 </ul>
