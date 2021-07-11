@@ -7,6 +7,8 @@ If you want a quick try, only install on your smartphone the .apk file located i
 
 Some algorithms have been included, some well known, others from my own :
 
+** Now compatible to Android 29 **
+
 <ul>
 <li>Conway rules : the standard Game Of Life</li>
 </ul>
