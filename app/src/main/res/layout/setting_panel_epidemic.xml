@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/setting_panel_epidemic"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="25dp"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/epidemic_nb_sickpoints_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Number of sick points : 1"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <SeekBar
+        android:id="@+id/epidemic_nb_sickpoints"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="9"
+        android:progress="1" />
+
+</LinearLayout>
