@@ -1,77 +1,71 @@
 package com.zmachsoft.gameoflife.world;
 
-import com.zmachsoft.gameoflife.world.setting.WorldSetting;
-
 import android.graphics.Canvas;
 import android.graphics.Color;
 
+import com.zmachsoft.gameoflife.world.setting.WorldSetting;
+
 /**
  * Master class of all game worlds.
- * 
- * @author Master
  *
+ * @author Master
  */
-public abstract class GameWorld
-{
-	public enum WorldType
-	{
-		CONWAY,
-		SHELLING,
-		EPIDEMIC,
-		WAR
-	}
-	
-	protected static int[] allColors = new int[] {Color.GRAY, Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.MAGENTA, Color.WHITE, Color.CYAN};
-	
-	private static int UNIQUE_ID = 1;
-	protected int uniqueId = UNIQUE_ID++;
-	
-	protected WorldSetting setting;
-	protected int boardWidth;
-	protected int boardheight;
-	
-	protected GameWorld(WorldSetting setting)
-	{
-		this.setting = setting;
-	}
+public abstract class GameWorld {
+    public enum WorldType {
+        CONWAY,
+        SHELLING,
+        EPIDEMIC,
+        WAR
+    }
 
-	/**
-	 * A world should be able to init its content
-	 */
-	public abstract void initContent();
-	/**
-	 * A world should be able to compute next step of its state
-	 * @throws NoChangeException
-	 */
-	public abstract void nextStep() throws NoChangeException;
-	/**
-	 * A world should be able to render itself on the input canvas 
-	 */
-	public abstract void render(Canvas canvas);
+    protected static int[] allColors = new int[]{Color.GRAY, Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.MAGENTA, Color.WHITE, Color.CYAN};
 
-	public WorldSetting getSetting()
-	{
-		return setting;
-	}
+    private static int UNIQUE_ID = 1;
+    protected int uniqueId = UNIQUE_ID++;
 
-	public int getBoardWidth()
-	{
-		return boardWidth;
-	}
+    protected WorldSetting setting;
+    protected int boardWidth;
+    protected int boardheight;
 
-	public void setBoardWidth(int boardWidth)
-	{
-		this.boardWidth = boardWidth;
-	}
+    protected GameWorld(WorldSetting setting) {
+        this.setting = setting;
+    }
 
-	public int getBoardheight()
-	{
-		return boardheight;
-	}
+    /**
+     * A world should be able to init its content
+     */
+    public abstract void initContent();
 
-	public void setBoardheight(int boardheight)
-	{
-		this.boardheight = boardheight;
-	}
-	
+    /**
+     * A world should be able to compute next step of its state
+     *
+     * @throws NoChangeException
+     */
+    public abstract void nextStep() throws NoChangeException;
+
+    /**
+     * A world should be able to render itself on the input canvas
+     */
+    public abstract void render(Canvas canvas);
+
+    public WorldSetting getSetting() {
+        return setting;
+    }
+
+    public int getBoardWidth() {
+        return boardWidth;
+    }
+
+    public void setBoardWidth(int boardWidth) {
+        this.boardWidth = boardWidth;
+    }
+
+    public int getBoardheight() {
+        return boardheight;
+    }
+
+    public void setBoardheight(int boardheight) {
+        this.boardheight = boardheight;
+    }
+
 }

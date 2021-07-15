@@ -11,105 +11,94 @@ import com.zmachsoft.gameoflife.world.WorldWar;
 import com.zmachsoft.gameoflife.world.setting.ConwaySetting;
 import com.zmachsoft.gameoflife.world.setting.WorldSetting;
 
-public class GameOflife
-{
-	/**
-	 * Singleton
-	 */
-	private static GameOflife _instance;
-	/**
-	 * Game's world
-	 */
-	private GameWorld world = null;
-	
-	/**
-	 * @return pattern singleton
-	 */
-	public static GameOflife getInstance() 
-	{
-		if (_instance==null)
-			_instance = new GameOflife();
-		
-		return _instance;
-	}
-	
-	/**
-	 * Init world content
-	 */
-	public void initWorld(WorldSetting setting)
-	{
-		Integer boardWidth = null;
-		Integer boardHeight = null;
-		// register world's board's size if already defined
-		if (world!=null)
-		{
-			boardWidth = world.getBoardWidth();
-			boardHeight = world.getBoardheight();
-		}
-		
-		// no settings, then pick up a default one
-		if (setting==null)
-		{
-			if (world==null || world.getSetting()==null)
-				setting = new ConwaySetting();
-			else
-				setting = world.getSetting();
-		}
-		
-		// create the world
-		switch (setting.getWorldType())
-		{
-		case CONWAY:
-			world = new WorldConway(setting);	
-			break;
+public class GameOflife {
+    /**
+     * Singleton
+     */
+    private static GameOflife _instance;
+    /**
+     * Game's world
+     */
+    private GameWorld world = null;
 
-		case SHELLING:
-			world = new WorldShelling(setting);
-			break;
+    /**
+     * @return pattern singleton
+     */
+    public static GameOflife getInstance() {
+        if (_instance == null)
+            _instance = new GameOflife();
 
-		case EPIDEMIC:
-			world = new WorldEpidemic(setting);
-			break;
+        return _instance;
+    }
 
-		case WAR:
-			world = new WorldWar(setting);
-			break;
+    /**
+     * Init world content
+     */
+    public void initWorld(WorldSetting setting) {
+        Integer boardWidth = null;
+        Integer boardHeight = null;
+        // register world's board's size if already defined
+        if (world != null) {
+            boardWidth = world.getBoardWidth();
+            boardHeight = world.getBoardheight();
+        }
 
-		default:
-			break;
-		}
-		
-		// world initial state
-		world.initContent();
-		
-		// update world's board's size
-		if (boardWidth!=null)
-		{
-			world.setBoardWidth(boardWidth);
-			world.setBoardheight(boardHeight);
-		}
-	}
-	
-	public void nextStep() throws NoChangeException
-	{
-		if (world!=null)
-			world.nextStep();
-	}
+        // no settings, then pick up a default one
+        if (setting == null) {
+            if (world == null || world.getSetting() == null)
+                setting = new ConwaySetting();
+            else
+                setting = world.getSetting();
+        }
 
-	public void render(Canvas canvas)
-	{
-		if (world!=null)
-			world.render(canvas);
-	}
+        // create the world
+        switch (setting.getWorldType()) {
+            case CONWAY:
+                world = new WorldConway(setting);
+                break;
 
-	public GameWorld getWorld()
-	{
-		return world;
-	}
+            case SHELLING:
+                world = new WorldShelling(setting);
+                break;
 
-	public void setWorld(GameWorld world)
-	{
-		this.world = world;
-	}
+            case EPIDEMIC:
+                world = new WorldEpidemic(setting);
+                break;
+
+            case WAR:
+                world = new WorldWar(setting);
+                break;
+
+            default:
+                break;
+        }
+
+        // world initial state
+        world.initContent();
+
+        // update world's board's size
+        if (boardWidth != null) {
+            world.setBoardWidth(boardWidth);
+            world.setBoardheight(boardHeight);
+        }
+    }
+
+    public void nextStep() throws NoChangeException {
+        if (world != null)
+            world.nextStep();
+    }
+
+    public void render(Canvas canvas) {
+        if (world != null)
+            world.render(canvas);
+    }
+
+    public GameWorld getWorld() {
+        return world;
+    }
+
+    public void setWorld(GameWorld world) {
+        this.world = world;
+    }
 
 }

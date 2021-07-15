@@ -1,6 +1,5 @@
 package com.zmachsoft.gameoflife.world;
 
-public class NoChangeException extends Exception
-{
+public class NoChangeException extends Exception {
 
 }
