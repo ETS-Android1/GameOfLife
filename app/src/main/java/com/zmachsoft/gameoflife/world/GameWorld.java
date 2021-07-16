@@ -15,7 +15,8 @@ public abstract class GameWorld {
         CONWAY,
         SHELLING,
         EPIDEMIC,
-        WAR
+        WAR,
+        EXCITABLE_MEDIA
     }
 
     protected static int[] allColors = new int[]{Color.GRAY, Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.MAGENTA, Color.WHITE, Color.CYAN};

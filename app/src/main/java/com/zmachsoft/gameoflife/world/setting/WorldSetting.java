@@ -43,8 +43,11 @@ public abstract class WorldSetting implements Serializable {
                 return new EpidemicSetting();
             case WAR:
                 return new WarSetting();
+            case EXCITABLE_MEDIA:
+                return new ExcitableMediaSetting();
+            default:
+                throw new IllegalArgumentException("Unknown world type : " + worldType);
         }
-        return null;
     }
 
     /**

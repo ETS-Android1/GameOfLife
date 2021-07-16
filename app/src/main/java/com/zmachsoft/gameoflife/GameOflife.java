@@ -6,6 +6,7 @@ import com.zmachsoft.gameoflife.world.GameWorld;
 import com.zmachsoft.gameoflife.world.NoChangeException;
 import com.zmachsoft.gameoflife.world.WorldConway;
 import com.zmachsoft.gameoflife.world.WorldEpidemic;
+import com.zmachsoft.gameoflife.world.WorldExcitableMedia;
 import com.zmachsoft.gameoflife.world.WorldShelling;
 import com.zmachsoft.gameoflife.world.WorldWar;
 import com.zmachsoft.gameoflife.world.setting.ConwaySetting;
@@ -67,6 +68,10 @@ public class GameOflife {
 
             case WAR:
                 world = new WorldWar(setting);
+                break;
+
+            case EXCITABLE_MEDIA:
+                world = new WorldExcitableMedia(setting);
                 break;
 
             default:

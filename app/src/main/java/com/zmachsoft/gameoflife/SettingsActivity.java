@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import com.zmachsoft.gameoflife.world.GameWorld.WorldType;
 import com.zmachsoft.gameoflife.world.setting.ConwaySetting;
 import com.zmachsoft.gameoflife.world.setting.EpidemicSetting;
+import com.zmachsoft.gameoflife.world.setting.ExcitableMediaSetting;
 import com.zmachsoft.gameoflife.world.setting.ShellingSetting;
 import com.zmachsoft.gameoflife.world.setting.WarSetting;
 import com.zmachsoft.gameoflife.world.setting.WorldSetting;
@@ -45,6 +46,8 @@ public class SettingsActivity extends Activity implements OnClickListener {
         epidemicChoice.setOnClickListener(this);
         CheckedTextView warChoice = (CheckedTextView) findViewById(R.id.checkedWar);
         warChoice.setOnClickListener(this);
+        CheckedTextView excitableMediaChoice = (CheckedTextView) findViewById(R.id.checkedExcitableMedia);
+        excitableMediaChoice.setOnClickListener(this);
 
         // help buttons
         ImageButton conwayHelp = (ImageButton) findViewById(R.id.setting_help_conway);
@@ -55,6 +58,8 @@ public class SettingsActivity extends Activity implements OnClickListener {
         epidemicHelp.setOnClickListener(this);
         ImageButton warHelp = (ImageButton) findViewById(R.id.setting_help_war);
         warHelp.setOnClickListener(this);
+        ImageButton excitableMediaHelp = (ImageButton) findViewById(R.id.setting_help_excitable_media);
+        excitableMediaHelp.setOnClickListener(this);
 
         Button applyButton = (Button) findViewById(R.id.settingsApply);
         applyButton.setOnClickListener(this);
@@ -94,7 +99,7 @@ public class SettingsActivity extends Activity implements OnClickListener {
         WorldSetting defaultSetting = null;
         if (v.getId() == R.id.checkedConway) {
             Log.i("GOL", "Choose Conway !");
-            enableSTateOfSettingsChoice(new boolean[]{true, false, false, false});
+            enableStateOfSettingsChoice(new boolean[]{true, false, false, false, false});
 
             // load a default setting
             defaultSetting = WorldSetting.getDefaultSetting(WorldType.CONWAY);
@@ -102,7 +107,7 @@ public class SettingsActivity extends Activity implements OnClickListener {
             ConwaySetting.fillConwayPanel(defaultSetting, this);
         } else if (v.getId() == R.id.checkedShelling) {
             Log.i("GOL", "Choose Shelling !");
-            enableSTateOfSettingsChoice(new boolean[]{false, true, false, false});
+            enableStateOfSettingsChoice(new boolean[]{false, true, false, false, false});
 
             // load a default setting
             defaultSetting = WorldSetting.getDefaultSetting(WorldType.SHELLING);
@@ -110,7 +115,7 @@ public class SettingsActivity extends Activity implements OnClickListener {
             ShellingSetting.fillShellingPanel(defaultSetting, this);
         } else if (v.getId() == R.id.checkedEpidemic) {
             Log.i("GOL", "Choose Epidemic !");
-            enableSTateOfSettingsChoice(new boolean[]{false, false, true, false});
+            enableStateOfSettingsChoice(new boolean[]{false, false, true, false, false});
 
             // load a default setting
             defaultSetting = WorldSetting.getDefaultSetting(WorldType.EPIDEMIC);
@@ -118,12 +123,20 @@ public class SettingsActivity extends Activity implements OnClickListener {
             EpidemicSetting.fillEpidemicPanel(defaultSetting, this);
         } else if (v.getId() == R.id.checkedWar) {
             Log.i("GOL", "Choose war !");
-            enableSTateOfSettingsChoice(new boolean[]{false, false, false, true});
+            enableStateOfSettingsChoice(new boolean[]{false, false, false, true, false});
 
             // load a default setting
             defaultSetting = WorldSetting.getDefaultSetting(WorldType.WAR);
             activateSetting(defaultSetting.getWorldType());
             WarSetting.fillWarPanel(defaultSetting, this);
+        } else if (v.getId() == R.id.checkedExcitableMedia) {
+            Log.i("GOL", "Choose excitable media !");
+            enableStateOfSettingsChoice(new boolean[]{false, false, false, false, true});
+
+            // load a default setting
+            defaultSetting = WorldSetting.getDefaultSetting(WorldType.EXCITABLE_MEDIA);
+            activateSetting(defaultSetting.getWorldType());
+            ExcitableMediaSetting.fillExcitableMediaPanel(defaultSetting, this);
         } else if (v.getId() == R.id.settingsApply) {
             // create a world setting according to user options
             WorldSetting setting = createSettingFromForm();
@@ -149,6 +162,9 @@ public class SettingsActivity extends Activity implements OnClickListener {
         } else if (v.getId() == R.id.setting_help_war) {
             // display the rules
             GameUIUtils.displayTextDialog(this, "War rules", GameOflife.getInstance().getWorld().getSetting().getRulesHelp(), true);
+        } else if (v.getId() == R.id.setting_help_excitable_media) {
+            // display the rules
+            GameUIUtils.displayTextDialog(this, "Excitable Media rules", GameOflife.getInstance().getWorld().getSetting().getRulesHelp(), true);
         }
     }
 
@@ -157,7 +173,7 @@ public class SettingsActivity extends Activity implements OnClickListener {
      *
      * @param states
      */
-    private void enableSTateOfSettingsChoice(boolean[] states) {
+    private void enableStateOfSettingsChoice(boolean[] states) {
         CheckedTextView conwayChoice = (CheckedTextView) findViewById(R.id.checkedConway);
         conwayChoice.setChecked(states[0]);
         CheckedTextView shellingChoice = (CheckedTextView) findViewById(R.id.checkedShelling);
@@ -166,6 +182,8 @@ public class SettingsActivity extends Activity implements OnClickListener {
         epidemicChoice.setChecked(states[2]);
         CheckedTextView warChoice = (CheckedTextView) findViewById(R.id.checkedWar);
         warChoice.setChecked(states[3]);
+        CheckedTextView excitableMediaChoice = (CheckedTextView) findViewById(R.id.checkedExcitableMedia);
+        excitableMediaChoice.setChecked(states[4]);
     }
 
     /**
@@ -178,6 +196,7 @@ public class SettingsActivity extends Activity implements OnClickListener {
         CheckedTextView shellingChoice = (CheckedTextView) findViewById(R.id.checkedShelling);
         CheckedTextView epidemicChoice = (CheckedTextView) findViewById(R.id.checkedEpidemic);
         CheckedTextView warChoice = (CheckedTextView) findViewById(R.id.checkedWar);
+        CheckedTextView excitableMediaChoice = (CheckedTextView) findViewById(R.id.checkedExcitableMedia);
 
         if (conwayChoice.isChecked())
             currentSetting = ConwaySetting.createConwaySettingFromForm(this);
@@ -187,6 +206,8 @@ public class SettingsActivity extends Activity implements OnClickListener {
             currentSetting = EpidemicSetting.createEpidemicSettingFromForm(this);
         if (warChoice.isChecked())
             currentSetting = WarSetting.createWarSettingFromForm(this);
+        if (excitableMediaChoice.isChecked())
+            currentSetting = ExcitableMediaSetting.createExcitableMediaSettingFromForm(this);
 
         return currentSetting;
     }
@@ -201,6 +222,7 @@ public class SettingsActivity extends Activity implements OnClickListener {
         CheckedTextView shellingChoice = (CheckedTextView) findViewById(R.id.checkedShelling);
         CheckedTextView epidemicChoice = (CheckedTextView) findViewById(R.id.checkedEpidemic);
         CheckedTextView warChoice = (CheckedTextView) findViewById(R.id.checkedWar);
+        CheckedTextView excitableMediaChoice = (CheckedTextView) findViewById(R.id.checkedExcitableMedia);
 
         // select the current type
         switch (GameOflife.getInstance().getWorld().getSetting().getWorldType()) {
@@ -218,6 +240,10 @@ public class SettingsActivity extends Activity implements OnClickListener {
 
             case WAR:
                 warChoice.setChecked(true);
+                break;
+
+            case EXCITABLE_MEDIA:
+                excitableMediaChoice.setChecked(true);
                 break;
 
             default:
@@ -240,6 +266,9 @@ public class SettingsActivity extends Activity implements OnClickListener {
                 break;
             case WAR:
                 WarSetting.fillWarPanel(setting, this);
+                break;
+            case EXCITABLE_MEDIA:
+                ExcitableMediaSetting.fillExcitableMediaPanel(setting, this);
                 break;
         }
     }
@@ -272,6 +301,9 @@ public class SettingsActivity extends Activity implements OnClickListener {
             case WAR:
                 newPanelId = R.layout.setting_panel_war;
                 break;
+            case EXCITABLE_MEDIA:
+                newPanelId = R.layout.setting_panel_excitable_media;
+                break;
         }
 
         // add new panel
@@ -293,6 +325,9 @@ public class SettingsActivity extends Activity implements OnClickListener {
                 break;
             case WAR:
                 WarSetting.prepareWarPanel(this);
+                break;
+            case EXCITABLE_MEDIA:
+                ExcitableMediaSetting.prepareExcitableMediaPanel(this);
                 break;
         }
     }

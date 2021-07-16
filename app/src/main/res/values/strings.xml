@@ -25,5 +25,7 @@
 	<string name="setting_help_epidemic">Help on Epidemic rules</string>
     <string name="setting_help_war">Help on War rules</string>
     <string name="nb_tiles">Nb tiles :</string>
-        
+    <string name="setting_help_excitable_media">TODO</string>
+    <string name="setting_choice_excitable_media">Excitable Media</string>
+
 </resources>

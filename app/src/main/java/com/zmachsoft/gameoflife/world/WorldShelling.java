@@ -13,25 +13,6 @@ import com.zmachsoft.gameoflife.world.setting.WorldSetting;
  * <p>
  * <p>
  * http://www.nymphomath.ch/pj/automates/chapitre12.pdf
- * Les cellules (au nombre de 10'000) représentent chacune une habitation de la ville, elle-même
- * représentée par un damier 100 x 100. La ville est composée de trois communautés notées A (en
- * rouge), B (en bleu) et C (en vert). On a donc trois états possibles pour une cellule habitée : A, B ou C.
- * Lorsqu'une maison n'est pas habitée, la cellule est dans l'état L (libre) de couleur grise.
- * La configuration initiale résulte d'un tirage aléatoire pour chaque cellule d'un état parmi les quatre
- * états possibles (A, B, C, ou L) qui donne donc un poids quasi égal entre les communautés.
- * Les règles de transition sont très simples et au nombre de deux.
- * <p>
- * • Règle n°1 : si une cellule est libre, une famille appartenant à n'importe laquelle des trois
- * communautés, A, B ou C peut s'y installer, avec une chance égale. L'installation d'une
- * famille n'est pas liée à la libération d'une autre cellule, elle est considérée comme venant de
- * l'extérieur. Néanmoins le modèle possède un seuil maximum de 99% de remplissage de
- * manière à garder un certain dynamisme au système.
- * <p>
- * • Règle n°2 : si une famille habitant une cellule donnée est entourée de plus de 70%
- * d'étrangers à son groupe, alors elle déménage et libère la cellule. Suivant son emplacement
- * sur la grille, une case peut avoir 3, 5 ou 8 voisins. Le déménagement n'est pas lié à un
- * emménagement immédiat dans une autre cellule (on peut donc considérer que la famille va
- * à l'extérieur).
  * <p>
  * <p>
  * 2-dimensional array with values :
