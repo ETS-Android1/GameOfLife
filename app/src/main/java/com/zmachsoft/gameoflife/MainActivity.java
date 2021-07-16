@@ -207,22 +207,6 @@ public class MainActivity extends Activity implements OnClickListener, OnSeekBar
             }
         } else if (v.getId() == R.id.buttonReset) {
             reset();
-//			// Pause
-//			gameBoard.pauseGame();
-//
-//			// re-init content
-//			gameBoard.initWorld();
-//			gameBoard.renderOnce();
-//
-//			// enable start button
-//			Button startButton = (Button) findViewById(R.id.buttonStart);
-//			startButton.setEnabled(true);
-//
-//			// reset pause button
-//			Button pauseButton = (Button) findViewById(R.id.buttonPause);
-//			pauseButton.setEnabled(false);
-//			pauseButton.setText("Pause");
-//			pauseButtonCanPause = true;
         } else if (v.getId() == R.id.ButtonStep) {
             // next step & render
             try {

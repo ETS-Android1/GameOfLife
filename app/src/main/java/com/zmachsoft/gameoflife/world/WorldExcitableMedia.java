@@ -1,6 +1,7 @@
 package com.zmachsoft.gameoflife.world;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.Log;
@@ -9,12 +10,18 @@ import com.zmachsoft.gameoflife.world.setting.ExcitableMediaSetting;
 import com.zmachsoft.gameoflife.world.setting.WarSetting;
 import com.zmachsoft.gameoflife.world.setting.WorldSetting;
 
+import java.util.Random;
+
 /**
  * Details in https://math.libretexts.org/Bookshelves/Scientific_Computing_Simulations_and_Modeling/Book%3A_Introduction_to_the_Modeling_and_Analysis_of_Complex_Systems_(Sayama)/11%3A_Cellular_Automata_I__Modeling/11.05%3A_Examples_of_Biological_Cellular_Automata_Models
  *
  * @author Master
  */
 public class WorldExcitableMedia extends GameWorld {
+    private static final double INITIAL_EXCITATION_PROBABILITY = 0.05;
+    private static final int STATUS_NORMAL = 0;
+    private static final int STATUS_EXCITED = 1;
+
     private int[][] datas = null;
 
     public WorldExcitableMedia() {
@@ -27,38 +34,38 @@ public class WorldExcitableMedia extends GameWorld {
 
     @Override
     public void initContent() {
-        Log.i("GOL", "World init datas");
-        datas = new int[setting.getNbTiles()][setting.getNbTiles()];
-        for (int r = 0; r < setting.getNbTiles(); r++)
-            for (int c = 0; c < setting.getNbTiles(); c++)
-                this.datas[r][c] = randomPopulation(true);
-    }
+        Log.i("GOL", "World init data");
+        int nbCellsInitiallyExcited = 0;
+        Random random = new Random(System.currentTimeMillis());
 
-    /**
-     * @return a random value of a population
-     */
-    private int randomPopulation(boolean includeNone) {
-        int value = 0;
-//        int nbArmy = ((WarSetting) setting).getNbArmy();
-//        if (includeNone)
-//            value = (int) (Math.random() * Double.valueOf(nbArmy + 1));        // 0 <= value < 4
-//        else
-//            value = (int) (Math.random() * Double.valueOf(nbArmy)) + 1;    // 1 <= value < 4
-        return value;
+        datas = new int[setting.getNbTiles()][setting.getNbTiles()];
+        for (int r = 0; r < setting.getNbTiles(); r++) {
+            for (int c = 0; c < setting.getNbTiles(); c++) {
+                if (random.nextDouble() <= INITIAL_EXCITATION_PROBABILITY) {
+                    this.datas[r][c] = STATUS_EXCITED;
+                    nbCellsInitiallyExcited++;
+                }
+            }
+        }
+
+        // no excited cell ? Not an interesting game :)
+        if (nbCellsInitiallyExcited == 0) {
+            Log.e("GOL", "World init data error - no cell initially excited");
+        }
     }
 
     @Override
     public void nextStep() throws NoChangeException {
         Log.i("GD", "World next step");
 
-//        // we must init a new data array to store datas for the next step.
-//        // We use current to do the computations.
-//        boolean changeOccured = false;
-//        // copy the array in a temporary one (to be modified during algo application)
-//        int[][] datasClone = new int[setting.getNbTiles()][setting.getNbTiles()];
-//        for (int r = 0; r < setting.getNbTiles(); r++)
-//            System.arraycopy(datas[r], 0, datasClone[r], 0, datas[r].length);
-//
+        // we must init a new data array to store datas for the next step.
+        // We use current to do the computations.
+        boolean changeOccured = false;
+        // copy the array in a temporary one (to be modified during algo application)
+        int[][] datasClone = new int[setting.getNbTiles()][setting.getNbTiles()];
+        for (int r = 0; r < setting.getNbTiles(); r++)
+            System.arraycopy(datas[r], 0, datasClone[r], 0, datas[r].length);
+
 //        for (int r = 0; r < this.setting.getNbTiles(); r++) {
 //            for (int c = 0; c < this.setting.getNbTiles(); c++) {
 //                // Does this data could live or not ? Apply rule.
@@ -71,12 +78,12 @@ public class WorldExcitableMedia extends GameWorld {
 //            }
 //        }
 //
-//        // finally assign the modified array to replace the global one
-//        datas = datasClone;
-//
-//        // no change ? Stop the simulation
-//        if (!changeOccured)
-//            throw new NoChangeException();
+        // finally assign the modified array to replace the global one
+        datas = datasClone;
+
+        // no change ? Stop the simulation
+        if (!changeOccured)
+            throw new NoChangeException();
     }
 
     /**
@@ -255,7 +262,7 @@ public class WorldExcitableMedia extends GameWorld {
 
     private void renderCell(int r, int c, Canvas canvas, int leftShift, int topShift) {
         // what color to use
-        int color = allColors[datas[r][c]];
+        int color = whichGrey(datas[r][c]);
         Paint paint = new Paint();
         paint.setColor(color);
 
@@ -271,6 +278,12 @@ public class WorldExcitableMedia extends GameWorld {
         float left = leftShift + c * setting.getTileSize();
         float right = left + setting.getTileSize();
         canvas.drawRect(new RectF(left, top, right, bottom), paint);
+    }
+
+    private int whichGrey(int datum) {
+        return datum == STATUS_NORMAL ? Color.WHITE :
+                datum == STATUS_EXCITED ? Color.BLACK :
+                        allGreys[datum - 2];
     }
 
     @Override
