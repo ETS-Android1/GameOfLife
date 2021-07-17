@@ -20,8 +20,6 @@ public abstract class GameWorld {
     }
 
     protected static int[] allColors = new int[]{Color.GRAY, Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.MAGENTA, Color.WHITE, Color.CYAN};
-    // FIXME : finish the list of greys
-    protected static int[] allGreys = new int[]{0xFF323232, 0xFF646464, 0xFF969696, 0xFF888888, 0xFF888888, 0xFF888888, 0xFF888888, 0xFF888888};
 
     private static int UNIQUE_ID = 1;
     protected int uniqueId = UNIQUE_ID++;
