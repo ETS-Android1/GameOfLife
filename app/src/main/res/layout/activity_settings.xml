@@ -137,6 +137,30 @@
 
 		</LinearLayout>
 
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<ImageButton
+				android:id="@+id/setting_help_boids"
+				android:layout_width="wrap_content"
+				android:layout_height="34dp"
+				android:background="@null"
+				android:contentDescription="@string/setting_help_boids"
+				android:src="@drawable/help" />
+
+			<CheckedTextView
+				android:id="@+id/checkedBoids"
+				android:layout_width="fill_parent"
+				android:layout_height="40dp"
+				android:layout_marginLeft="20dp"
+				android:checkMark="?android:attr/listChoiceIndicatorSingle"
+				android:clickable="true"
+				android:gravity="left|center"
+				android:text="@string/setting_choice_boids" />
+
+		</LinearLayout>
+
 	</LinearLayout>
 
 	<LinearLayout

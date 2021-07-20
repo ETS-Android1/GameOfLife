@@ -17,8 +17,12 @@ public abstract class WorldSetting implements Serializable {
     private WorldType worldType;
 
     protected WorldSetting(WorldType worldType) {
-        this.nbTiles = NB_TILES;
-        this.tileSize = TILE_SIZE;
+        this(worldType, NB_TILES, TILE_SIZE);
+    }
+
+    protected WorldSetting(WorldType worldType, int nbTiles, int tileSize) {
+        this.nbTiles = nbTiles;
+        this.tileSize = tileSize;
         this.worldType = worldType;
     }
 
@@ -45,6 +49,8 @@ public abstract class WorldSetting implements Serializable {
                 return new WarSetting();
             case EXCITABLE_MEDIA:
                 return new ExcitableMediaSetting();
+            case BOIDS:
+                return new BoidsSetting();
             default:
                 throw new IllegalArgumentException("Unknown world type : " + worldType);
         }

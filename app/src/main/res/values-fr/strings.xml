@@ -28,5 +28,7 @@
     <string name="nb_tiles">Nb tiles :</string>
     <string name="setting_help_excitable_media">TODO</string>
     <string name="setting_choice_excitable_media">Excitable Media</string>
+    <string name="setting_help_boids">boids</string>
+    <string name="setting_choice_boids">Boids rules</string>
 
 </resources>

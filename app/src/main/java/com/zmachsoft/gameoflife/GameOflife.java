@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 
 import com.zmachsoft.gameoflife.world.GameWorld;
 import com.zmachsoft.gameoflife.world.NoChangeException;
+import com.zmachsoft.gameoflife.world.WorldBoids;
 import com.zmachsoft.gameoflife.world.WorldConway;
 import com.zmachsoft.gameoflife.world.WorldEpidemic;
 import com.zmachsoft.gameoflife.world.WorldExcitableMedia;
@@ -72,6 +73,10 @@ public class GameOflife {
 
             case EXCITABLE_MEDIA:
                 world = new WorldExcitableMedia(setting);
+                break;
+
+            case BOIDS:
+                world = new WorldBoids(setting);
                 break;
 
             default:
