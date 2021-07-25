@@ -14,6 +14,10 @@ import com.zmachsoft.gameoflife.world.setting.WorldSetting;
 import java.util.Arrays;
 import java.util.Random;
 
+import de.biomedical_imaging.edu.wlu.cs.levy.CG.KDTree;
+import de.biomedical_imaging.edu.wlu.cs.levy.CG.KeyDuplicateException;
+import de.biomedical_imaging.edu.wlu.cs.levy.CG.KeySizeException;
+
 /**
  * Details in
  *
@@ -22,13 +26,14 @@ import java.util.Random;
 public class WorldBoids extends GameWorld {
 
     private Boid[] boids;
-    private Random random = new Random(System.currentTimeMillis());
+    private static final Random random = new Random(System.currentTimeMillis());
+    private static final Paint BOID_PAINT = new Paint();
 
     private double cohesionCoefficient;
     private int alignmentCoefficient;
     private double separationCoefficient;
     private int distance;
-    private static final Paint BOID_PAINT = new Paint();
+    private KDTree<Boid> kd;
 
     public WorldBoids() {
         super(new ExcitableMediaSetting());
@@ -48,10 +53,16 @@ public class WorldBoids extends GameWorld {
         Random random = new Random(System.currentTimeMillis());
         int nbBoids = ((BoidsSetting) setting).getNbBoids();
         boids = new Boid[nbBoids];
-        for (int i = 0; i < nbBoids; i++) {
-            double x = random.nextInt(getBoardWidth());
-            double y = random.nextInt(getBoardheight());
-            boids[i] = new Boid(new Vector(x, y), new Vector(0, 0)); // no initial velocity
+        this.kd = new KDTree<>(2);
+        try {
+            for (int i = 0; i < nbBoids; i++) {
+                double x = random.nextInt(getBoardWidth());
+                double y = random.nextInt(getBoardheight());
+                boids[i] = new Boid(new Vector(x, y), new Vector(0, 0)); // no initial velocity
+                kd.insert(boids[i].position.data, boids[i]);
+            }
+        } catch (KeySizeException | KeyDuplicateException e) {
+            throw new RuntimeException(e);
         }
 
         this.cohesionCoefficient = 100.0;
@@ -67,10 +78,30 @@ public class WorldBoids extends GameWorld {
 
         Arrays.stream(boids)
                 .forEach(boid -> {
+//                    double[] coords = boid.position.data;
+//                    Boid[] neighbours = new Boid[distance];
+//                    try {
+//                        kd.nearest(coords, distance).toArray(neighbours);
+//                        kd.delete(coords);
+//                    } catch (Exception e) {
+//                        // we ignore this exception on purpose
+//                        System.out.println("KeyMissingException deleting caught: " + e + e.getMessage());
+//                    }
                     Boid[] neighbours = findNeighbours(boid, distance);
                     boid.updateVelocity(neighbours, cohesionCoefficient, alignmentCoefficient, separationCoefficient);
                     boid.updatePosition();
                 });
+
+        //the implementation of deletion in KdTree does not actually delete nodes,
+        //but only marks them, that affects performance, so it's necessary to rebuild the tree
+        //after long sequences of insertions and deletions        kd = new KDTree<>(2);
+        try {
+            for (int i = 0; i < boids.length - 1; i++) {
+                kd.insert(boids[i].position.data, boids[i]);
+            }
+        } catch (KeySizeException | KeyDuplicateException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Boid[] findNeighbours(Boid boid, int distance) {
@@ -95,7 +126,7 @@ public class WorldBoids extends GameWorld {
         // project boid's coordinates into display referential (limited to width / height)
         int x = boid.getX() % getBoardWidth();
         int y = boid.getY() % getBoardheight();
-        System.out.println("Boid at " + boid.getX() + "," + boid.getY() + " rendered at " + x + "," + y);
+//        System.out.println("Boid at " + boid.getX() + "," + boid.getY() + " rendered at " + x + "," + y);
 
 //        canvas.drawPoint(x, y, BOID_PAINT);
         canvas.drawCircle(x, y, 2, BOID_PAINT);

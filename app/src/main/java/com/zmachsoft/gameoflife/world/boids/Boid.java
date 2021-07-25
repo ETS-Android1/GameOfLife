@@ -1,8 +1,8 @@
 package com.zmachsoft.gameoflife.world.boids;
 
 public class Boid {
-    private Vector position;
-    private Vector velocity;
+    public Vector position;
+    public Vector velocity;
 
 
     public Boid(Vector position, Vector velocity) {
@@ -25,15 +25,33 @@ public class Boid {
     }
 
     private Vector cohesion(Boid[] neighbours, double cohesionCoefficient) {
-        return new Vector(0, 0);
+        Vector pcJ = new Vector(0, 0);
+        int length = neighbours.length;
+        for (Boid neighbour : neighbours) {
+            pcJ = pcJ.plus(neighbour.position);
+        }
+        pcJ = pcJ.div(length);
+        return pcJ.minus(position).div(cohesionCoefficient);
     }
 
-    private Vector alignment(Boid[] neighbours, double cohesionCoefficient) {
-        return new Vector(0, 0);
+    private Vector alignment(Boid[] neighbours, double alignmentCoefficient) {
+        Vector pvJ = new Vector(0, 0);
+        int length = neighbours.length;
+        for (Boid neighbour : neighbours) {
+            pvJ = pvJ.plus(neighbour.velocity);
+        }
+        pvJ = pvJ.div(length);
+        return pvJ.minus(velocity).div(alignmentCoefficient);
     }
 
-    private Vector separation(Boid[] neighbours, double cohesionCoefficient) {
-        return new Vector(0, 0);
+    private Vector separation(Boid[] neighbours, double separationCoefficient) {
+        Vector c = new Vector(0, 0);
+        for (Boid neighbour : neighbours) {
+            if ((neighbour.position.minus(position).magnitude()) < separationCoefficient) {
+                c = c.minus(neighbour.position.minus(position));
+            }
+        }
+        return c;
     }
 
     public void updatePosition() {

@@ -2,7 +2,7 @@ package com.zmachsoft.gameoflife.world.boids;
 
 public class Vector {
     int N;
-    double[] data;
+    public double[] data;
 
     public Vector(int d) {
         N = d;
