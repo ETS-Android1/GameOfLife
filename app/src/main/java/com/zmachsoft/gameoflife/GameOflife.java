@@ -83,14 +83,14 @@ public class GameOflife {
                 break;
         }
 
-        // world initial state
-        world.initContent();
-
         // update world's board's size
         if (boardWidth != null) {
             world.setBoardWidth(boardWidth);
             world.setBoardheight(boardHeight);
         }
+
+        // world initial state
+        world.initContent();
     }
 
     public void nextStep() throws NoChangeException {
@@ -99,8 +99,9 @@ public class GameOflife {
     }
 
     public void render(Canvas canvas) {
-        if (world != null)
+        if (world != null) {
             world.render(canvas);
+        }
     }
 
     public GameWorld getWorld() {

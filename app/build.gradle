@@ -42,4 +42,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.navigation:navigation-fragment:2.2.2'
     implementation 'androidx.navigation:navigation-ui:2.2.2'
+    implementation group: 'de.biomedical-imaging.edu.wlu.cs.levy.cg', name: 'kdtree', version: '1.0.3'
 }

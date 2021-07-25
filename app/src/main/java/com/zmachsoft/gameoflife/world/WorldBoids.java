@@ -1,14 +1,17 @@
 package com.zmachsoft.gameoflife.world;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.util.Log;
 
+import com.zmachsoft.gameoflife.world.boids.Boid;
+import com.zmachsoft.gameoflife.world.boids.Vector;
 import com.zmachsoft.gameoflife.world.setting.BoidsSetting;
 import com.zmachsoft.gameoflife.world.setting.ExcitableMediaSetting;
 import com.zmachsoft.gameoflife.world.setting.WorldSetting;
 
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -18,8 +21,14 @@ import java.util.Random;
  */
 public class WorldBoids extends GameWorld {
 
-    private int[][] datas = null;
+    private Boid[] boids;
     private Random random = new Random(System.currentTimeMillis());
+
+    private double cohesionCoefficient;
+    private int alignmentCoefficient;
+    private double separationCoefficient;
+    private int distance;
+    private static final Paint BOID_PAINT = new Paint();
 
     public WorldBoids() {
         super(new ExcitableMediaSetting());
@@ -32,106 +41,41 @@ public class WorldBoids extends GameWorld {
     @Override
     public void initContent() {
         Log.i("GOL", "World init data");
+        Log.i("GOL", "Nb tiles : " + setting.getNbTiles());
         Log.i("GOL", "Nb of boids : " + ((BoidsSetting) setting).getNbBoids());
+        Log.i("GOL", "size of board for boids : " + getBoardWidth() + " / " + getBoardheight());
 
         Random random = new Random(System.currentTimeMillis());
-        datas = new int[setting.getNbTiles()][setting.getNbTiles()];
-        for (int r = 0; r < setting.getNbTiles(); r++) {
-            for (int c = 0; c < setting.getNbTiles(); c++) {
-//                if (random.nextDouble() <= MINIMAL_EXCITATION_PROBABILITY) {
-//                    this.datas[r][c] = STATUS_EXCITED;
-//                    nbCellsInitiallyExcited++;
-//                }
-            }
+        int nbBoids = ((BoidsSetting) setting).getNbBoids();
+        boids = new Boid[nbBoids];
+        for (int i = 0; i < nbBoids; i++) {
+            double x = random.nextInt(getBoardWidth());
+            double y = random.nextInt(getBoardheight());
+            boids[i] = new Boid(new Vector(x, y), new Vector(0, 0)); // no initial velocity
         }
+
+        this.cohesionCoefficient = 100.0;
+        this.alignmentCoefficient = 8;
+        this.separationCoefficient = 10.0;
+        this.distance = 50;
+        BOID_PAINT.setColor(Color.BLACK);
     }
 
     @Override
     public void nextStep() throws NoChangeException {
         Log.i("GD", "World next step");
 
-        // we must init a new data array to store datas for the next step.
-        // We use current to do the computations.
-        boolean changeOccured = false;
-        // copy the array in a temporary one (to be modified during algo application)
-        int[][] datasClone = new int[setting.getNbTiles()][setting.getNbTiles()];
-        for (int r = 0; r < setting.getNbTiles(); r++)
-            System.arraycopy(datas[r], 0, datasClone[r], 0, datas[r].length);
-
-        for (int r = 0; r < this.setting.getNbTiles(); r++) {
-            for (int c = 0; c < this.setting.getNbTiles(); c++) {
-                datasClone[r][c] = this.datas[r][c];
-
-                // apply the rules :
-                boolean changeForThisCell = this.applyGameRule(datasClone, r, c);
-                changeOccured = changeOccured || changeForThisCell;
-            }
-        }
-
-        // finally assign the modified array to replace the global one
-        datas = datasClone;
-
-        // no change ? Stop the simulation
-        if (!changeOccured)
-            throw new NoChangeException();
+        Arrays.stream(boids)
+                .forEach(boid -> {
+                    Boid[] neighbours = findNeighbours(boid, distance);
+                    boid.updateVelocity(neighbours, cohesionCoefficient, alignmentCoefficient, separationCoefficient);
+                    boid.updatePosition();
+                });
     }
 
-    /**
-     * Modify a given cell in datasClone applying game rules
-     *
-     * @return true if some change occured
-     */
-    private boolean applyGameRule(int[][] datasClone, int r, int c) {
-//        // is current cell in refractory period ?
-//        if (datasClone[r][c] > STATUS_EXCITED) {
-//            if (datasClone[r][c] == lastStatusOfRefractoryPeriod) {
-//                // back to normal
-//                datasClone[r][c] = STATUS_NORMAL;
-//                return true;
-//            }
-//
-//            // increment status until the refractory period is over
-//            datasClone[r][c]++;
-//            return true;
-//        }
-//
-//        // already excited ? Then start the refractory period
-//        if (datasClone[r][c] == STATUS_EXCITED) {
-//            datasClone[r][c]++;
-//            return true;
-//        }
-//
-//        // count the number of excited neighbours
-//        int nbExcitedCells = this.computeExcitedNeightbors(r, c);
-//
-//        // compute probability for current cell to be excited
-//        double proba = affineA * nbExcitedCells + affineB;
-//        if (random.nextDouble() < proba) {
-//            // make the cell excited
-//            datasClone[r][c] = STATUS_EXCITED;
-//            return true;
-//        }
-
-        // no change occurred
-        return false;
+    private Boid[] findNeighbours(Boid boid, int distance) {
+        return boids;
     }
-
-//    private int computeExcitedNeightbors(int r, int c) {
-//        int nbExcitedCells = 0;
-//        int r1 = r > 0 ? r - 1 : r;
-//        int r2 = Math.min((r + 1), (setting.getNbTiles() - 1));
-//        int c1 = c > 0 ? c - 1 : c;
-//        int c2 = Math.min((c + 1), (setting.getNbTiles() - 1));
-//        for (int rp = r1; rp <= r2; rp++) {
-//            for (int cp = c1; cp <= c2; cp++) {
-//                if (rp == r && cp == c) continue; // ignore central cell
-//                if (this.datas[rp][cp] == STATUS_EXCITED) {
-//                    nbExcitedCells++;
-//                }
-//            }
-//        }
-//        return nbExcitedCells;
-//    }
 
     @Override
     /**
@@ -143,25 +87,18 @@ public class WorldBoids extends GameWorld {
         int leftShift = (getBoardWidth() - setting.getNbTiles() * setting.getTileSize()) / 2;
         int topShift = (getBoardheight() - setting.getNbTiles() * setting.getTileSize()) / 2;
 
-        for (int r = 0; r < setting.getNbTiles(); r++) {
-            for (int c = 0; c < setting.getNbTiles(); c++) {
-                renderCell(r, c, canvas, leftShift, topShift);
-            }
-        }
+        Arrays.stream(boids)
+                .forEach(boid -> render(boid, canvas, leftShift, topShift));
     }
 
-    private void renderCell(int r, int c, Canvas canvas, int leftShift, int topShift) {
-        // what color to use
-        int color = allColors[random.nextInt(8)];
-        Paint paint = new Paint();
-        paint.setColor(color);
+    private void render(Boid boid, Canvas canvas, int leftShift, int topShift) {
+        // project boid's coordinates into display referential (limited to width / height)
+        int x = boid.getX() % getBoardWidth();
+        int y = boid.getY() % getBoardheight();
+        System.out.println("Boid at " + boid.getX() + "," + boid.getY() + " rendered at " + x + "," + y);
 
-        // what coordinates
-        float top = topShift + r * setting.getTileSize();
-        float bottom = top + setting.getTileSize();
-        float left = leftShift + c * setting.getTileSize();
-        float right = left + setting.getTileSize();
-        canvas.drawRect(new RectF(left, top, right, bottom), paint);
+//        canvas.drawPoint(x, y, BOID_PAINT);
+        canvas.drawCircle(x, y, 2, BOID_PAINT);
     }
 
     @Override

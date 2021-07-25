@@ -13,7 +13,7 @@ public class BoidsSetting extends WorldSetting {
     private int nbBoids = 50;
 
     public BoidsSetting() {
-        super(WorldType.BOIDS, 300, 2);
+        super(WorldType.BOIDS, 100, 6);
     }
 
     public int getNbBoids() {
