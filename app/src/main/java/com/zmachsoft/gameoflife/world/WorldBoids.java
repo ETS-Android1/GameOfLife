@@ -12,6 +12,7 @@ import com.zmachsoft.gameoflife.world.setting.ExcitableMediaSetting;
 import com.zmachsoft.gameoflife.world.setting.WorldSetting;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import de.biomedical_imaging.edu.wlu.cs.levy.CG.KDTree;
@@ -54,22 +55,27 @@ public class WorldBoids extends GameWorld {
         int nbBoids = ((BoidsSetting) setting).getNbBoids();
         boids = new Boid[nbBoids];
         this.kd = new KDTree<>(2);
-        try {
-            for (int i = 0; i < nbBoids; i++) {
-                double x = random.nextInt(getBoardWidth());
-                double y = random.nextInt(getBoardheight());
-                boids[i] = new Boid(new Vector(x, y), new Vector(0, 0)); // no initial velocity
-                kd.insert(boids[i].position.data, boids[i]);
+        for (int i = 0; i < nbBoids; i++) {
+            double x = random.nextInt(getBoardWidth());
+            double y = random.nextInt(getBoardheight());
+            try {
+                Boid boid = new Boid(new Vector(x, y), new Vector(0, 0)); // no initial velocity
+                kd.insert(boid.position.data, boid);
+                boids[i] = boid;
+            } catch (KeySizeException e) {
+                throw new RuntimeException(e);
+            } catch (KeyDuplicateException e) {
+                i = i - 1; // we skipped this one - let's compute one more
             }
-        } catch (KeySizeException | KeyDuplicateException e) {
-            throw new RuntimeException(e);
         }
 
         this.cohesionCoefficient = 100.0;
         this.alignmentCoefficient = 8;
         this.separationCoefficient = 10.0;
-        this.distance = 50;
+        this.distance = 100;
         BOID_PAINT.setColor(Color.BLACK);
+
+        Log.i("GOL", "KD tree contains " + kd.size() + " items");
     }
 
     @Override
@@ -78,16 +84,16 @@ public class WorldBoids extends GameWorld {
 
         Arrays.stream(boids)
                 .forEach(boid -> {
-//                    double[] coords = boid.position.data;
-//                    Boid[] neighbours = new Boid[distance];
-//                    try {
-//                        kd.nearest(coords, distance).toArray(neighbours);
-//                        kd.delete(coords);
-//                    } catch (Exception e) {
-//                        // we ignore this exception on purpose
-//                        System.out.println("KeyMissingException deleting caught: " + e + e.getMessage());
-//                    }
-                    Boid[] neighbours = findNeighbours(boid, distance);
+                    double[] coords = boid.position.data;
+                    Boid[] neighbours = null;
+                    try {
+                        List<Boid> nearest = kd.nearest(coords, distance);
+                        neighbours = nearest.toArray(new Boid[0]);
+                        kd.delete(coords);
+                    } catch (Exception ignore) {
+                        // we ignore this exception on purpose
+//                        System.out.println("KeyMissingException deleting caught: " + ignore + ignore.getMessage());
+                    }
                     boid.updateVelocity(neighbours, cohesionCoefficient, alignmentCoefficient, separationCoefficient);
                     boid.updatePosition();
                 });
@@ -102,10 +108,6 @@ public class WorldBoids extends GameWorld {
         } catch (KeySizeException | KeyDuplicateException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private Boid[] findNeighbours(Boid boid, int distance) {
-        return boids;
     }
 
     @Override
@@ -124,12 +126,12 @@ public class WorldBoids extends GameWorld {
 
     private void render(Boid boid, Canvas canvas, int leftShift, int topShift) {
         // project boid's coordinates into display referential (limited to width / height)
-        int x = boid.getX() % getBoardWidth();
-        int y = boid.getY() % getBoardheight();
+        int x = boid.getX() > 0 ? boid.getX() % getBoardWidth() : getBoardWidth() - Math.abs(boid.getX()) % getBoardWidth();
+        int y = boid.getY() > 0 ? boid.getY() % getBoardheight() : getBoardheight() - Math.abs(boid.getY()) % getBoardheight();
 //        System.out.println("Boid at " + boid.getX() + "," + boid.getY() + " rendered at " + x + "," + y);
 
 //        canvas.drawPoint(x, y, BOID_PAINT);
-        canvas.drawCircle(x, y, 2, BOID_PAINT);
+        canvas.drawCircle(x, y, 4, BOID_PAINT);
     }
 
     @Override

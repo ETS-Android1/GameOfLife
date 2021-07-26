@@ -338,7 +338,6 @@ public class SettingsActivity extends Activity implements OnClickListener {
         // add new panel
         lastSettingPanel = (LinearLayout) getLayoutInflater().inflate(newPanelId, null);
         lastSettingPanel.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-        lastSettingPanel.setTop(30);
         rulesLayout.addView(lastSettingPanel);
 
         // bind events on panel's item

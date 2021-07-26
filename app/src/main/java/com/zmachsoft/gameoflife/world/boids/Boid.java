@@ -22,13 +22,19 @@ public class Boid {
         velocity = velocity.plus(cohesion(neighbours, cohesionCoefficient))
                 .plus(alignment(neighbours, alignmentCoefficient))
                 .plus(separation(neighbours, separationCoefficient));
+
+        limitVelocity();
     }
 
     private Vector cohesion(Boid[] neighbours, double cohesionCoefficient) {
         Vector pcJ = new Vector(0, 0);
         int length = neighbours.length;
         for (Boid neighbour : neighbours) {
-            pcJ = pcJ.plus(neighbour.position);
+            try {
+                pcJ = pcJ.plus(neighbour.position);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         pcJ = pcJ.div(length);
         return pcJ.minus(position).div(cohesionCoefficient);
@@ -52,6 +58,15 @@ public class Boid {
             }
         }
         return c;
+    }
+
+    //limit the magnitude of the boids' velocities
+    public void limitVelocity() {
+        int vlim = 100;
+        if (this.velocity.magnitude() > vlim) {
+            this.velocity = this.velocity.div(this.velocity.magnitude());
+            this.velocity = this.velocity.times(vlim);
+        }
     }
 
     public void updatePosition() {
