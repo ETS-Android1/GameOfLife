@@ -1,9 +1,11 @@
 package com.zmachsoft.gameoflife.world.boids;
 
 public class Boid {
+    private static int UNIQUE_ID = 1;
+
+    public int uniqueId = UNIQUE_ID++;
     public Vector position;
     public Vector velocity;
-
 
     public Boid(Vector position, Vector velocity) {
         this.position = position;
@@ -18,12 +20,12 @@ public class Boid {
         return Double.valueOf(position.data[1]).intValue();
     }
 
-    public void updateVelocity(Boid[] neighbours, double cohesionCoefficient, int alignmentCoefficient, double separationCoefficient) {
+    public void updateVelocity(Boid[] neighbours, double cohesionCoefficient, int alignmentCoefficient, double separationCoefficient, int velocityMax) {
         velocity = velocity.plus(cohesion(neighbours, cohesionCoefficient))
                 .plus(alignment(neighbours, alignmentCoefficient))
                 .plus(separation(neighbours, separationCoefficient));
 
-        limitVelocity();
+        limitVelocity(velocityMax);
     }
 
     private Vector cohesion(Boid[] neighbours, double cohesionCoefficient) {
@@ -61,11 +63,10 @@ public class Boid {
     }
 
     //limit the magnitude of the boids' velocities
-    public void limitVelocity() {
-        int vlim = 100;
-        if (this.velocity.magnitude() > vlim) {
+    public void limitVelocity(int velocityMax) {
+        if (this.velocity.magnitude() > velocityMax) {
             this.velocity = this.velocity.div(this.velocity.magnitude());
-            this.velocity = this.velocity.times(vlim);
+            this.velocity = this.velocity.times(velocityMax);
         }
     }
 

@@ -12,12 +12,9 @@ import com.zmachsoft.gameoflife.world.setting.ExcitableMediaSetting;
 import com.zmachsoft.gameoflife.world.setting.WorldSetting;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 import de.biomedical_imaging.edu.wlu.cs.levy.CG.KDTree;
-import de.biomedical_imaging.edu.wlu.cs.levy.CG.KeyDuplicateException;
-import de.biomedical_imaging.edu.wlu.cs.levy.CG.KeySizeException;
 
 /**
  * Details in
@@ -34,6 +31,7 @@ public class WorldBoids extends GameWorld {
     private int alignmentCoefficient;
     private double separationCoefficient;
     private int distance;
+    private int velocityMax;
     private KDTree<Boid> kd;
 
     public WorldBoids() {
@@ -58,21 +56,24 @@ public class WorldBoids extends GameWorld {
         for (int i = 0; i < nbBoids; i++) {
             double x = random.nextInt(getBoardWidth());
             double y = random.nextInt(getBoardheight());
-            try {
-                Boid boid = new Boid(new Vector(x, y), new Vector(0, 0)); // no initial velocity
-                kd.insert(boid.position.data, boid);
-                boids[i] = boid;
-            } catch (KeySizeException e) {
-                throw new RuntimeException(e);
-            } catch (KeyDuplicateException e) {
-                i = i - 1; // we skipped this one - let's compute one more
-            }
+//            try {
+            Boid boid = new Boid(new Vector(x, y), new Vector(0, 0)); // no initial velocity
+//                kd.insert(boid.position.data, boid);
+            boids[i] = boid;
+//            } catch (KeySizeException e) {
+//                throw new RuntimeException(e);
+//            } catch (KeyDuplicateException e) {
+//                i = i - 1; // we skipped this one - let's compute one more
+//            }
         }
 
-        this.cohesionCoefficient = 100.0;
+        // could come settings
+//        this.cohesionCoefficient = 100.0;
+        this.cohesionCoefficient = 10.0;
         this.alignmentCoefficient = 8;
         this.separationCoefficient = 10.0;
         this.distance = 100;
+        this.velocityMax = 25;
         BOID_PAINT.setColor(Color.BLACK);
 
         Log.i("GOL", "KD tree contains " + kd.size() + " items");
@@ -80,34 +81,35 @@ public class WorldBoids extends GameWorld {
 
     @Override
     public void nextStep() throws NoChangeException {
-        Log.i("GD", "World next step");
+        Log.i("GOL", "World next step");
 
         Arrays.stream(boids)
                 .forEach(boid -> {
                     double[] coords = boid.position.data;
                     Boid[] neighbours = null;
                     try {
-                        List<Boid> nearest = kd.nearest(coords, distance);
-                        neighbours = nearest.toArray(new Boid[0]);
-                        kd.delete(coords);
+//                        List<Boid> nearest = kd.nearest(coords, distance);
+//                        neighbours = nearest.toArray(new Boid[0]);
+                        neighbours = findNeighbours(boid, boids);
+//                        kd.delete(coords);
                     } catch (Exception ignore) {
                         // we ignore this exception on purpose
 //                        System.out.println("KeyMissingException deleting caught: " + ignore + ignore.getMessage());
                     }
-                    boid.updateVelocity(neighbours, cohesionCoefficient, alignmentCoefficient, separationCoefficient);
+                    boid.updateVelocity(neighbours, cohesionCoefficient, alignmentCoefficient, separationCoefficient, velocityMax);
                     boid.updatePosition();
                 });
 
         //the implementation of deletion in KdTree does not actually delete nodes,
         //but only marks them, that affects performance, so it's necessary to rebuild the tree
         //after long sequences of insertions and deletions        kd = new KDTree<>(2);
-        try {
-            for (int i = 0; i < boids.length - 1; i++) {
-                kd.insert(boids[i].position.data, boids[i]);
-            }
-        } catch (KeySizeException | KeyDuplicateException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            for (int i = 0; i < boids.length - 1; i++) {
+//                kd.insert(boids[i].position.data, boids[i]);
+//            }
+//        } catch (KeySizeException | KeyDuplicateException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     @Override
@@ -116,15 +118,11 @@ public class WorldBoids extends GameWorld {
      */
     public void render(Canvas canvas) {
         Log.i("GD", "Surface onDraw");
-        // compute shifts to center the drawing
-        int leftShift = (getBoardWidth() - setting.getNbTiles() * setting.getTileSize()) / 2;
-        int topShift = (getBoardheight() - setting.getNbTiles() * setting.getTileSize()) / 2;
-
         Arrays.stream(boids)
-                .forEach(boid -> render(boid, canvas, leftShift, topShift));
+                .forEach(boid -> render(boid, canvas));
     }
 
-    private void render(Boid boid, Canvas canvas, int leftShift, int topShift) {
+    private void render(Boid boid, Canvas canvas) {
         // project boid's coordinates into display referential (limited to width / height)
         int x = boid.getX() > 0 ? boid.getX() % getBoardWidth() : getBoardWidth() - Math.abs(boid.getX()) % getBoardWidth();
         int y = boid.getY() > 0 ? boid.getY() % getBoardheight() : getBoardheight() - Math.abs(boid.getY()) % getBoardheight();
@@ -137,6 +135,18 @@ public class WorldBoids extends GameWorld {
     @Override
     public String toString() {
         return "Boids media - id=" + uniqueId;
+    }
+
+    private Boid[] findNeighbours(Boid boid, Boid[] boids) {
+        double minX = boid.position.data[0] - distance;
+        double maxX = boid.position.data[0] + distance;
+        double minY = boid.position.data[1] - distance;
+        double maxY = boid.position.data[1] + distance;
+        return Arrays.stream(boids)
+                .filter(b -> b.uniqueId != boid.uniqueId)
+                .filter(b -> b.position.data[0] > minX && b.position.data[0] < maxX
+                        && b.position.data[1] > minY && b.position.data[1] < maxY)
+                .toArray(Boid[]::new);
     }
 }
 

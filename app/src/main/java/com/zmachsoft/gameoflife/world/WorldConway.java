@@ -39,7 +39,7 @@ public class WorldConway extends GameWorld {
 
     @Override
     public void nextStep() throws NoChangeException {
-        Log.i("GD", "World next step");
+        Log.i("GOL", "World next step");
         // copy the array in a temporary one (to be modified during algo application)
         int[][] datasClone = new int[setting.getNbTiles()][setting.getNbTiles()];
         for (int r = 0; r < setting.getNbTiles(); r++)

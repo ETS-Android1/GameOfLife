@@ -12,8 +12,7 @@ public class Vector {
     public Vector(double... a) {
         N = a.length;
         data = new double[N];
-        for (int i = 0; i < N; i++)
-            data[i] = a[i];
+        System.arraycopy(a, 0, data, 0, N);
     }
 
     /**
@@ -32,7 +31,6 @@ public class Vector {
     /**
      * Returns vector magnitude (the distance vector and the origin)
      *
-     * @param No parameters.
      * @return Double value |this|.
      */
     public double magnitude() {
@@ -104,10 +102,11 @@ public class Vector {
     /**
      * Returns string representation of the vector
      */
+    @Override
     public String toString() {
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (int i = 0; i < N; i++)
-            s += data[i] + " ";
-        return s;
+            s.append(data[i]).append(" ");
+        return s.toString();
     }
 }

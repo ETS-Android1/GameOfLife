@@ -61,7 +61,7 @@ public class WorldShelling extends GameWorld {
 
     @Override
     public void nextStep() throws NoChangeException {
-        Log.i("GD", "World next step");
+        Log.i("GOL", "World next step");
 
         // we must init a new data array to store datas for the next step.
         // We use current to do the computations.
