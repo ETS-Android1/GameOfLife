@@ -24,7 +24,6 @@ import de.biomedical_imaging.edu.wlu.cs.levy.CG.KDTree;
 public class WorldBoids extends GameWorld {
 
     private Boid[] boids;
-    private static final Random random = new Random(System.currentTimeMillis());
     private static final Paint BOID_PAINT = new Paint();
 
     private double cohesionCoefficient;
@@ -69,11 +68,11 @@ public class WorldBoids extends GameWorld {
 
         // could come settings
 //        this.cohesionCoefficient = 100.0;
-        this.cohesionCoefficient = 10.0;
-        this.alignmentCoefficient = 8;
-        this.separationCoefficient = 10.0;
-        this.distance = 100;
-        this.velocityMax = 25;
+        this.cohesionCoefficient = ((BoidsSetting) setting).getCohesionCoefficient();
+        this.alignmentCoefficient = ((BoidsSetting) setting).getAlignmentCoefficient();
+        this.separationCoefficient = ((BoidsSetting) setting).getSeparationCoefficient();
+        this.distance = ((BoidsSetting) setting).getDistance();
+        this.velocityMax = ((BoidsSetting) setting).getVelocityMax();
         BOID_PAINT.setColor(Color.BLACK);
 
         Log.i("GOL", "KD tree contains " + kd.size() + " items");
@@ -90,7 +89,7 @@ public class WorldBoids extends GameWorld {
                     try {
 //                        List<Boid> nearest = kd.nearest(coords, distance);
 //                        neighbours = nearest.toArray(new Boid[0]);
-                        neighbours = findNeighbours(boid, boids);
+                        neighbours = findNeighbours(boid);
 //                        kd.delete(coords);
                     } catch (Exception ignore) {
                         // we ignore this exception on purpose
@@ -126,9 +125,7 @@ public class WorldBoids extends GameWorld {
         // project boid's coordinates into display referential (limited to width / height)
         int x = boid.getX() > 0 ? boid.getX() % getBoardWidth() : getBoardWidth() - Math.abs(boid.getX()) % getBoardWidth();
         int y = boid.getY() > 0 ? boid.getY() % getBoardheight() : getBoardheight() - Math.abs(boid.getY()) % getBoardheight();
-//        System.out.println("Boid at " + boid.getX() + "," + boid.getY() + " rendered at " + x + "," + y);
 
-//        canvas.drawPoint(x, y, BOID_PAINT);
         canvas.drawCircle(x, y, 4, BOID_PAINT);
     }
 
@@ -137,15 +134,15 @@ public class WorldBoids extends GameWorld {
         return "Boids media - id=" + uniqueId;
     }
 
-    private Boid[] findNeighbours(Boid boid, Boid[] boids) {
+    private Boid[] findNeighbours(Boid boid) {
         double minX = boid.position.data[0] - distance;
         double maxX = boid.position.data[0] + distance;
         double minY = boid.position.data[1] - distance;
         double maxY = boid.position.data[1] + distance;
         return Arrays.stream(boids)
                 .filter(b -> b.uniqueId != boid.uniqueId)
-                .filter(b -> b.position.data[0] > minX && b.position.data[0] < maxX
-                        && b.position.data[1] > minY && b.position.data[1] < maxY)
+                .filter(b -> b.position.data[0] >= minX && b.position.data[0] <= maxX
+                        && b.position.data[1] >= minY && b.position.data[1] <= maxY)
                 .toArray(Boid[]::new);
     }
 }

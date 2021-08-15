@@ -20,4 +20,74 @@
         android:max="200"
         android:progress="1" />
 
+    <TextView
+        android:id="@+id/boids_cohesion_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cohesion coefficient: 100"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <SeekBar
+        android:id="@+id/boids_cohesion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="150"
+        android:progress="1" />
+
+    <TextView
+        android:id="@+id/boids_alignment_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alignment coefficient: 8"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <SeekBar
+        android:id="@+id/boids_alignment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="15"
+        android:progress="1" />
+
+    <TextView
+        android:id="@+id/boids_separation_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Separation coefficient: 10"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <SeekBar
+        android:id="@+id/boids_separation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="30"
+        android:progress="1" />
+
+    <TextView
+        android:id="@+id/boids_distance_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Neighbours distance: 100"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <SeekBar
+        android:id="@+id/boids_distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="200"
+        android:progress="1" />
+
+    <TextView
+        android:id="@+id/boids_max_velocity_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Max velocity: 25"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <SeekBar
+        android:id="@+id/boids_max_velocity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="25"
+        android:progress="1" />
+
 </LinearLayout>
