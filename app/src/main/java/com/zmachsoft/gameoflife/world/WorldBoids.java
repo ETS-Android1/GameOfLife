@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.util.Log;
 
 import com.zmachsoft.gameoflife.world.boids.Boid;
+import com.zmachsoft.gameoflife.world.boids.Obstacle;
 import com.zmachsoft.gameoflife.world.boids.Vector;
 import com.zmachsoft.gameoflife.world.setting.BoidsSetting;
 import com.zmachsoft.gameoflife.world.setting.ExcitableMediaSetting;
@@ -25,6 +26,7 @@ public class WorldBoids extends GameWorld {
 
     private Boid[] boids;
     private static final Paint BOID_PAINT = new Paint();
+    private static final Paint OBSTACLE_PAINT = new Paint();
 
     private double cohesionCoefficient;
     private int alignmentCoefficient;
@@ -32,6 +34,7 @@ public class WorldBoids extends GameWorld {
     private int distance;
     private int velocityMax;
     private KDTree<Boid> kd;
+    private Obstacle[] obstacles;
 
     public WorldBoids() {
         super(new ExcitableMediaSetting());
@@ -66,14 +69,25 @@ public class WorldBoids extends GameWorld {
 //            }
         }
 
-        // could come settings
-//        this.cohesionCoefficient = 100.0;
+        // create some obstacles
+        int nbObstacles = 2;
+        obstacles = new Obstacle[nbObstacles];
+        for (int i = 0; i < nbObstacles; i++) {
+            double x = random.nextInt(getBoardWidth());
+            double y = random.nextInt(getBoardheight());
+            obstacles[i] = new Obstacle(new Vector(x, y));
+        }
+
+        // come from settings
         this.cohesionCoefficient = ((BoidsSetting) setting).getCohesionCoefficient();
         this.alignmentCoefficient = ((BoidsSetting) setting).getAlignmentCoefficient();
         this.separationCoefficient = ((BoidsSetting) setting).getSeparationCoefficient();
         this.distance = ((BoidsSetting) setting).getDistance();
         this.velocityMax = ((BoidsSetting) setting).getVelocityMax();
+
         BOID_PAINT.setColor(Color.BLACK);
+        OBSTACLE_PAINT.setColor(Color.RED);
+        OBSTACLE_PAINT.setStyle(Paint.Style.FILL);
 
         Log.i("GOL", "KD tree contains " + kd.size() + " items");
     }
@@ -84,18 +98,19 @@ public class WorldBoids extends GameWorld {
 
         Arrays.stream(boids)
                 .forEach(boid -> {
-                    double[] coords = boid.position.data;
                     Boid[] neighbours = null;
+                    Obstacle[] closeObstacles = null;
                     try {
 //                        List<Boid> nearest = kd.nearest(coords, distance);
 //                        neighbours = nearest.toArray(new Boid[0]);
                         neighbours = findNeighbours(boid);
+                        closeObstacles = findCloseObstacles(boid);
 //                        kd.delete(coords);
                     } catch (Exception ignore) {
                         // we ignore this exception on purpose
 //                        System.out.println("KeyMissingException deleting caught: " + ignore + ignore.getMessage());
                     }
-                    boid.updateVelocity(neighbours, cohesionCoefficient, alignmentCoefficient, separationCoefficient, velocityMax);
+                    boid.updateVelocity(neighbours, closeObstacles, cohesionCoefficient, alignmentCoefficient, separationCoefficient, velocityMax);
                     boid.updatePosition();
                 });
 
@@ -119,6 +134,8 @@ public class WorldBoids extends GameWorld {
         Log.i("GD", "Surface onDraw");
         Arrays.stream(boids)
                 .forEach(boid -> render(boid, canvas));
+        Arrays.stream(obstacles)
+                .forEach(obstacle -> render(obstacle, canvas));
     }
 
     private void render(Boid boid, Canvas canvas) {
@@ -127,6 +144,14 @@ public class WorldBoids extends GameWorld {
         int y = boid.getY() > 0 ? boid.getY() % getBoardheight() : getBoardheight() - Math.abs(boid.getY()) % getBoardheight();
 
         canvas.drawCircle(x, y, 4, BOID_PAINT);
+    }
+
+    private void render(Obstacle obstacle, Canvas canvas) {
+        // project boid's coordinates into display referential (limited to width / height)
+        int x = obstacle.getX() > 0 ? obstacle.getX() % getBoardWidth() : getBoardWidth() - Math.abs(obstacle.getX()) % getBoardWidth();
+        int y = obstacle.getY() > 0 ? obstacle.getY() % getBoardheight() : getBoardheight() - Math.abs(obstacle.getY()) % getBoardheight();
+
+        canvas.drawCircle(x, y, 40, OBSTACLE_PAINT);
     }
 
     @Override
@@ -144,6 +169,17 @@ public class WorldBoids extends GameWorld {
                 .filter(b -> b.position.data[0] >= minX && b.position.data[0] <= maxX
                         && b.position.data[1] >= minY && b.position.data[1] <= maxY)
                 .toArray(Boid[]::new);
+    }
+
+    private Obstacle[] findCloseObstacles(Boid boid) {
+        double minX = boid.position.data[0] - distance;
+        double maxX = boid.position.data[0] + distance;
+        double minY = boid.position.data[1] - distance;
+        double maxY = boid.position.data[1] + distance;
+        return Arrays.stream(obstacles)
+                .filter(o -> o.position.data[0] >= minX && o.position.data[0] <= maxX
+                        && o.position.data[1] >= minY && o.position.data[1] <= maxY)
+                .toArray(Obstacle[]::new);
     }
 }
 

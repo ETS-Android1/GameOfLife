@@ -20,12 +20,23 @@ public class Boid {
         return Double.valueOf(position.data[1]).intValue();
     }
 
-    public void updateVelocity(Boid[] neighbours, double cohesionCoefficient, int alignmentCoefficient, double separationCoefficient, int velocityMax) {
+    public void updateVelocity(Boid[] neighbours, Obstacle[] closeObstacles, double cohesionCoefficient, int alignmentCoefficient, double separationCoefficient, int velocityMax) {
         velocity = velocity.plus(cohesion(neighbours, cohesionCoefficient))
                 .plus(alignment(neighbours, alignmentCoefficient))
-                .plus(separation(neighbours, separationCoefficient));
+                .plus(separation(neighbours, separationCoefficient))
+                .plus(avoidObstacle(closeObstacles));
 
         limitVelocity(velocityMax);
+    }
+
+    private Vector avoidObstacle(Obstacle[] closeObstacles) {
+        Vector c = new Vector(0, 0);
+        for (Obstacle obstacle : closeObstacles) {
+            if ((obstacle.position.minus(position).magnitude()) < 15) {
+                c = c.minus(obstacle.position.minus(position));
+            }
+        }
+        return c;
     }
 
     private Vector cohesion(Boid[] neighbours, double cohesionCoefficient) {
